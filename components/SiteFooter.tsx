@@ -6,13 +6,16 @@ export default function SiteFooter({ className = "" }: { className?: string }) {
   return (
     <footer className={footerClassName}>
       <div className="footer-brand">© 2026 • Made by aiThs</div>
+
+      <div className="footer-contact-label">Contact for work</div>
+      <ChevronDown className="footer-contact-arrow" aria-hidden="true" />
+
       <a
-        className="footer-contact"
+        className="footer-email"
         href="mailto:danhthai4560@gmail.com"
-        aria-label="Contact for work qua email danhthai4560@gmail.com"
+        aria-label="Gửi email công việc tới danhthai4560@gmail.com"
       >
-        <span>Contact for work</span>
-        <ChevronDown className="footer-contact-arrow" aria-hidden="true" />
+        danhthai4560@gmail.com
       </a>
     </footer>
   );
