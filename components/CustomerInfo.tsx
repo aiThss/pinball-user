@@ -262,7 +262,9 @@ function RecordCard({ record: r }: { record: Record }) {
         {r.balls > 0 && (
           <div className="record-action-row">
             {ballAction && (
-              <span className="record-chip chip-action">
+              <span
+                className={`record-chip chip-action${ballAction === "Lấy bi" ? " chip-action-withdraw-ball" : ""}`}
+              >
                 {ballAction}
               </span>
             )}
