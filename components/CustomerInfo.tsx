@@ -10,6 +10,7 @@ import {
   ClipboardList,
   RefreshCw,
 } from "lucide-react";
+import SiteFooter from "@/components/SiteFooter";
 
 type Record = {
   id: string;
@@ -195,12 +196,7 @@ export default function CustomerInfo({
             </div>
           )}
 
-          <footer className="footer site-footer">
-            <div className="footer-brand">© aiThs</div>
-            <a className="footer-email" href="mailto:danhthai4560@gmail.com">
-              danhthai4560@gmail.com
-            </a>
-          </footer>
+          <SiteFooter />
         </div>
       </main>
     </>
