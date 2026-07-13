@@ -68,32 +68,35 @@ export default function CustomerInfo({
         <div className="bg-orb bg-orb-3" />
       </div>
 
-      {/* Theme toggle */}
-      <button
-        className="theme-toggle"
-        onClick={onToggleTheme}
-        aria-label={theme === "dark" ? "Chuyển sang giao diện sáng" : "Chuyển sang giao diện tối"}
-        title={theme === "dark" ? "Light Glass" : "Dark Glass"}
-      >
-        {theme === "dark" ? (
-          <Sun className="w-[18px] h-[18px]" aria-hidden="true" style={{ display: "block" }} />
-        ) : (
-          <Moon className="w-[18px] h-[18px]" aria-hidden="true" style={{ display: "block" }} />
-        )}
-      </button>
-
       <main className="page-wrapper">
         <div className="info-page animate-in">
-          {/* Back button */}
-          <button
-            id="back-btn"
-            type="button"
-            className="back-btn"
-            onClick={onBack}
-            aria-label="Quay lại trang tra cứu"
-          >
-            ← Tra cứu số khác
-          </button>
+          {/* Top Controls Container */}
+          <div className="top-controls">
+            {/* Back button */}
+            <button
+              id="back-btn"
+              type="button"
+              className="back-btn"
+              onClick={onBack}
+              aria-label="Quay lại trang tra cứu"
+            >
+              ← Tra cứu số khác
+            </button>
+
+            {/* Theme toggle */}
+            <button
+              className="theme-toggle"
+              onClick={onToggleTheme}
+              aria-label={theme === "dark" ? "Chuyển sang giao diện sáng" : "Chuyển sang giao diện tối"}
+              title={theme === "dark" ? "Light Glass" : "Dark Glass"}
+            >
+              {theme === "dark" ? (
+                <Sun className="w-[18px] h-[18px]" aria-hidden="true" style={{ display: "block" }} />
+              ) : (
+                <Moon className="w-[18px] h-[18px]" aria-hidden="true" style={{ display: "block" }} />
+              )}
+            </button>
+          </div>
 
           {/* Profile card */}
           <div className="profile-card animate-in animate-in-delay-1">

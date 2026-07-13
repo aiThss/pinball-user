@@ -330,17 +330,22 @@ body[data-pinball-user-theme] .page-wrapper {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 40px 16px 60px;
+  width: min(100%, 520px);
+  margin-inline: auto;
+  padding: max(16px, env(safe-area-inset-top)) 16px max(24px, env(safe-area-inset-bottom));
+}
+
+@media (max-width: 320px) {
+  body[data-pinball-user-theme] .page-wrapper {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
 }
 
 /* ========== Theme toggle button ========== */
 body[data-pinball-user-theme] .theme-toggle {
-  position: fixed;
-  top: 16px;
-  right: 16px;
-  z-index: 100;
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -351,25 +356,47 @@ body[data-pinball-user-theme] .theme-toggle {
   border: 1px solid var(--user-glass-border);
   box-shadow: var(--user-shadow-sm);
   cursor: pointer;
-  font-size: 18px;
-  transition: transform var(--user-transition), box-shadow var(--user-transition),
-              background var(--user-transition);
+  transition: transform var(--user-transition), box-shadow var(--user-transition);
   color: var(--user-text);
   font-family: inherit;
   line-height: 1;
-}
-body[data-pinball-user-theme] .theme-toggle:hover {
-  transform: scale(1.08);
-  box-shadow: var(--user-shadow);
+  outline: none;
+  flex-shrink: 0;
 }
 body[data-pinball-user-theme] .theme-toggle:active {
   transform: scale(0.96);
+}
+
+/* For enter phone page, place it absolute at top right of the page wrapper */
+body[data-pinball-user-theme] .page-wrapper > .theme-toggle {
+  position: absolute;
+  top: max(16px, env(safe-area-inset-top));
+  right: 16px;
+  z-index: 10;
+}
+
+@media (max-width: 320px) {
+  body[data-pinball-user-theme] .page-wrapper > .theme-toggle {
+    right: 12px;
+  }
+}
+
+/* ========== Top Controls on Info Page ========== */
+body[data-pinball-user-theme] .top-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 24px;
+  min-height: 44px;
 }
 
 /* ========== Header / Brand ========== */
 body[data-pinball-user-theme] .brand {
   text-align: center;
   margin-bottom: 36px;
+  padding-top: 36px; /* offset absolute theme toggle */
 }
 body[data-pinball-user-theme] .brand-icon {
   display: inline-flex;
@@ -393,7 +420,7 @@ body[data-pinball-user-theme] .brand-icon {
   50%       { transform: translateY(-6px); }
 }
 body[data-pinball-user-theme] .brand-title {
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 800;
   background: var(--user-brand-grad);
   -webkit-background-clip: text;
@@ -412,17 +439,23 @@ body[data-pinball-user-theme] .brand-sub {
 body[data-pinball-user-theme] .card {
   background: var(--user-glass);
   border: 1px solid var(--user-glass-border);
-  border-radius: var(--user-radius-xl);
+  border-radius: 28px;
   backdrop-filter: blur(24px) saturate(160%);
   -webkit-backdrop-filter: blur(24px) saturate(160%);
   box-shadow:
     var(--user-shadow),
     inset 0 1px 0 var(--user-glass-highlight);
-  padding: 32px;
+  padding: 24px;
   width: 100%;
-  max-width: 440px;
   position: relative;
   overflow: hidden;
+}
+
+@media (max-width: 320px) {
+  body[data-pinball-user-theme] .card {
+    padding: 20px 16px;
+    border-radius: 24px;
+  }
 }
 
 /* Top highlight edge */
@@ -466,8 +499,9 @@ body[data-pinball-user-theme] .phone-input {
   background: var(--user-input-bg);
   border: 1.5px solid var(--user-input-border);
   border-radius: var(--user-radius-md);
-  padding: 15px 16px 15px 48px;
+  padding: 16px 16px 16px 48px;
   font-size: 20px;
+  min-height: 56px;
   font-family: "Inter", system-ui, sans-serif;
   font-weight: 600;
   color: var(--user-text);
@@ -492,6 +526,14 @@ body[data-pinball-user-theme] .phone-input:focus {
   border-color: var(--user-input-border-focus);
   box-shadow: 0 0 0 3px var(--user-input-focus-ring);
   background: var(--user-glass-strong);
+}
+
+@media (max-width: 320px) {
+  body[data-pinball-user-theme] .phone-input {
+    font-size: 18px;
+    letter-spacing: 1px;
+    padding-left: 42px;
+  }
 }
 
 /* Digit dots */
@@ -534,7 +576,8 @@ body[data-pinball-user-theme] .btn-primary {
   gap: 8px;
   width: 100%;
   margin-top: 20px;
-  padding: 15px;
+  padding: 14px;
+  min-height: 50px;
   border: none;
   border-radius: var(--user-radius-md);
   background: var(--user-btn-bg);
@@ -562,10 +605,10 @@ body[data-pinball-user-theme] .btn-primary::after {
 }
 body[data-pinball-user-theme] .btn-primary:hover:not(:disabled) {
   opacity: 0.92;
-  transform: translateY(-2px);
-  box-shadow: var(--user-btn-shadow-hover);
 }
-body[data-pinball-user-theme] .btn-primary:active:not(:disabled) { transform: translateY(0); }
+body[data-pinball-user-theme] .btn-primary:active:not(:disabled) {
+  transform: scale(0.98);
+}
 body[data-pinball-user-theme] .btn-primary:disabled { opacity: 0.42; cursor: not-allowed; }
 
 /* Spinner */
@@ -581,7 +624,6 @@ body[data-pinball-user-theme] .spinner {
 /* ========== Profile / Info page ========== */
 body[data-pinball-user-theme] .info-page {
   width: 100%;
-  max-width: 520px;
 }
 
 body[data-pinball-user-theme] .back-btn {
@@ -594,26 +636,29 @@ body[data-pinball-user-theme] .back-btn {
   border: 1px solid var(--user-glass-border-2);
   border-radius: 100px;
   color: var(--user-text-secondary);
-  font-size: 13px;
+  font-size: 14px;
   font-family: "Inter", system-ui, sans-serif;
   font-weight: 500;
-  padding: 8px 18px;
+  padding: 10px 18px;
+  min-height: 44px;
   cursor: pointer;
   transition: all var(--user-transition);
-  margin-bottom: 24px;
 }
 body[data-pinball-user-theme] .back-btn:hover {
   color: var(--user-back-hover-color);
   border-color: var(--user-back-hover-border);
   background: var(--user-back-hover-bg);
 }
+body[data-pinball-user-theme] .back-btn:active {
+  transform: scale(0.98);
+}
 
 /* Profile header card */
 body[data-pinball-user-theme] .profile-card {
   background: var(--user-profile-grad);
   border: 1px solid var(--user-profile-border);
-  border-radius: var(--user-radius-xl);
-  padding: 28px;
+  border-radius: 28px;
+  padding: 20px;
   margin-bottom: 20px;
   backdrop-filter: blur(24px) saturate(150%);
   -webkit-backdrop-filter: blur(24px) saturate(150%);
@@ -623,6 +668,14 @@ body[data-pinball-user-theme] .profile-card {
   position: relative;
   overflow: hidden;
 }
+
+@media (max-width: 320px) {
+  body[data-pinball-user-theme] .profile-card {
+    padding: 16px;
+    border-radius: 24px;
+  }
+}
+
 body[data-pinball-user-theme] .profile-card::before {
   content: "";
   position: absolute;
@@ -644,15 +697,16 @@ body[data-pinball-user-theme] .profile-avatar {
   font-size: 24px;
   font-weight: 800;
   color: #fff;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
   box-shadow: var(--user-avatar-shadow);
   border: 2px solid rgba(255,255,255,0.30);
 }
 body[data-pinball-user-theme] .profile-name {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 800;
   color: var(--user-text);
   line-height: 1.2;
+  overflow-wrap: anywhere;
 }
 body[data-pinball-user-theme] .profile-phone {
   font-size: 14px;
@@ -661,22 +715,27 @@ body[data-pinball-user-theme] .profile-phone {
   font-variant-numeric: tabular-nums;
 }
 
-/* Stats row */
+/* Stats row - Grid 2 columns */
 body[data-pinball-user-theme] .stats-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
   margin-top: 20px;
+  width: 100%;
 }
 body[data-pinball-user-theme] .stat-card {
   background: var(--user-stat-card-bg);
   border: 1px solid var(--user-glass-border-2);
   border-radius: var(--user-radius-md);
-  padding: 18px;
+  padding: 16px 12px;
   text-align: center;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   transition: all var(--user-transition);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 110px;
 }
 body[data-pinball-user-theme] .stat-card:first-child {
   border-color: var(--user-stat-1-border);
@@ -686,21 +745,37 @@ body[data-pinball-user-theme] .stat-card:last-child {
   border-color: var(--user-stat-2-border);
   background: var(--user-stat-2-bg);
 }
-body[data-pinball-user-theme] .stat-icon { font-size: 24px; margin-bottom: 8px; }
+body[data-pinball-user-theme] .stat-icon { font-size: 22px; margin-bottom: 6px; }
 body[data-pinball-user-theme] .stat-value {
-  font-size: 36px;
+  font-size: clamp(28px, 9vw, 40px);
   font-weight: 800;
-  line-height: 1;
+  line-height: 1.1;
+  margin-block: 4px;
 }
 body[data-pinball-user-theme] .stat-card:first-child .stat-value { color: var(--user-stat-1-value); }
 body[data-pinball-user-theme] .stat-card:last-child  .stat-value { color: var(--user-stat-2-value); }
 body[data-pinball-user-theme] .stat-label {
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 11px;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.7px;
-  color: var(--user-text-muted);
-  margin-top: 6px;
+  color: var(--user-text-secondary);
+}
+
+@media (max-width: 320px) {
+  body[data-pinball-user-theme] .stats-row {
+    gap: 8px;
+  }
+  body[data-pinball-user-theme] .stat-card {
+    padding: 12px 8px;
+  }
+  body[data-pinball-user-theme] .stat-icon {
+    font-size: 20px;
+    margin-bottom: 4px;
+  }
+  body[data-pinball-user-theme] .stat-label {
+    font-size: 11px;
+  }
 }
 
 /* ========== Records section ========== */
@@ -726,15 +801,14 @@ body[data-pinball-user-theme] .record-card {
   background: var(--user-glass);
   border: 1px solid var(--user-glass-border);
   border-radius: var(--user-radius-md);
-  padding: 16px 18px;
-  backdrop-filter: blur(20px) saturate(150%);
-  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  padding: 16px;
+  backdrop-filter: blur(8px) saturate(140%);
+  -webkit-backdrop-filter: blur(8px) saturate(140%);
   transition:
     background var(--user-transition),
     border-color var(--user-transition),
-    box-shadow var(--user-transition),
     transform var(--user-transition);
-  box-shadow: var(--user-shadow-sm);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
   position: relative;
   overflow: hidden;
 }
@@ -747,14 +821,23 @@ body[data-pinball-user-theme] .record-card::before {
 }
 body[data-pinball-user-theme] .record-card:hover {
   background: var(--user-glass-strong);
-  transform: translateY(-1px);
-  box-shadow: var(--user-shadow);
+}
+body[data-pinball-user-theme] .record-card:active {
+  transform: scale(0.985);
+}
+
+@media (max-width: 320px) {
+  body[data-pinball-user-theme] .record-card {
+    padding: 14px;
+  }
 }
 
 body[data-pinball-user-theme] .record-header {
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 12px;
   justify-content: space-between;
+  align-items: flex-start;
   margin-bottom: 10px;
 }
 body[data-pinball-user-theme] .record-date {
@@ -860,16 +943,17 @@ body[data-pinball-user-theme] .footer {
   opacity: 0.7;
 }
 
-/* ========== Responsive ========== */
-@media (max-width: 480px) {
-  body[data-pinball-user-theme] .page-wrapper { padding: 24px 12px 48px; }
-  body[data-pinball-user-theme] .card { padding: 24px 20px; }
-  body[data-pinball-user-theme] .profile-card { padding: 20px; }
-  body[data-pinball-user-theme] .brand-icon { width: 60px; height: 60px; font-size: 26px; }
-  body[data-pinball-user-theme] .brand-title { font-size: 22px; }
-  body[data-pinball-user-theme] .stat-value { font-size: 28px; }
-  body[data-pinball-user-theme] .info-page { max-width: 100%; }
-  body[data-pinball-user-theme] .theme-toggle { top: 12px; right: 12px; }
+/* ========== Motion Settings ========== */
+@media (prefers-reduced-motion: reduce) {
+  body[data-pinball-user-theme] .brand-icon {
+    animation: none;
+  }
+  body[data-pinball-user-theme] .theme-toggle,
+  body[data-pinball-user-theme] .btn-primary,
+  body[data-pinball-user-theme] .back-btn,
+  body[data-pinball-user-theme] .record-card {
+    transition: none !important;
+  }
 }
 
 /* ========== Animations ========== */
