@@ -245,7 +245,9 @@ function RecordCard({ record: r }: { record: Record }) {
         {r.cards > 0 && (
           <div className="record-action-row">
             {cardAction && (
-              <span className="record-chip chip-action">
+              <span
+                className={`record-chip chip-action${cardAction.startsWith("Gửi") ? " chip-action-send" : ""}`}
+              >
                 {cardAction}
               </span>
             )}
@@ -263,7 +265,7 @@ function RecordCard({ record: r }: { record: Record }) {
           <div className="record-action-row">
             {ballAction && (
               <span
-                className={`record-chip chip-action${ballAction === "Lấy bi" ? " chip-action-withdraw-ball" : ""}`}
+                className={`record-chip chip-action${ballAction.startsWith("Gửi") ? " chip-action-send" : ""}${ballAction === "Lấy bi" ? " chip-action-withdraw-ball" : ""}`}
               >
                 {ballAction}
               </span>
