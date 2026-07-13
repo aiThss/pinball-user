@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { formatDate } from "@/lib/utils";
 import {
   Sun,
@@ -10,6 +10,8 @@ import {
   CircleDot,
   ClipboardList,
   RefreshCw,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import SiteFooter from "@/components/SiteFooter";
 
@@ -40,6 +42,9 @@ type CustomerData = {
 };
 
 type RecordView = "active" | "received";
+type PageItem = number | "ellipsis-left" | "ellipsis-right";
+
+const RECORDS_PER_PAGE = 6;
 
 function getStatusClass(status: string) {
   if (status === "Đang gửi") return "status-active";
@@ -53,6 +58,35 @@ function getInitials(name: string) {
   const parts = name.trim().split(" ");
   if (parts.length === 1) return name.slice(0, 2).toUpperCase();
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
+
+function getPageItems(totalPages: number, currentPage: number): PageItem[] {
+  if (totalPages <= 7) {
+    return Array.from({ length: totalPages }, (_, index) => index + 1);
+  }
+
+  const pages = new Set<number>([1, totalPages, currentPage - 1, currentPage, currentPage + 1]);
+
+  if (currentPage <= 4) {
+    [2, 3, 4, 5].forEach((page) => pages.add(page));
+  }
+
+  if (currentPage >= totalPages - 3) {
+    [totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1].forEach((page) => pages.add(page));
+  }
+
+  const sorted = [...pages].filter((page) => page > 0 && page <= totalPages).sort((a, b) => a - b);
+  const items: PageItem[] = [];
+
+  sorted.forEach((page, index) => {
+    const previous = sorted[index - 1];
+    if (index > 0 && page - previous > 1) {
+      items.push(index === 1 ? "ellipsis-left" : "ellipsis-right");
+    }
+    items.push(page);
+  });
+
+  return items;
 }
 
 export default function CustomerInfo({
@@ -73,11 +107,35 @@ export default function CustomerInfo({
   onToggleTheme: () => void;
 }) {
   const [recordView, setRecordView] = useState<RecordView>("active");
+  const [recordPages, setRecordPages] = useState<Record<RecordView, number>>({
+    active: 1,
+    received: 1,
+  });
 
   const activeRecords = data.records.filter((record) => record.status === "Đang gửi");
   const receivedRecords = data.records.filter((record) => record.status !== "Đang gửi");
-  const visibleRecords = recordView === "active" ? activeRecords : receivedRecords;
-  const hasScrollableRecords = visibleRecords.length > 2;
+  const selectedRecords = recordView === "active" ? activeRecords : receivedRecords;
+  const totalPages = Math.max(1, Math.ceil(selectedRecords.length / RECORDS_PER_PAGE));
+  const currentPage = Math.min(recordPages[recordView], totalPages);
+  const visibleRecords = selectedRecords.slice(
+    (currentPage - 1) * RECORDS_PER_PAGE,
+    currentPage * RECORDS_PER_PAGE,
+  );
+
+  useEffect(() => {
+    setRecordPages((current) => ({
+      active: Math.min(current.active, Math.max(1, Math.ceil(activeRecords.length / RECORDS_PER_PAGE))),
+      received: Math.min(current.received, Math.max(1, Math.ceil(receivedRecords.length / RECORDS_PER_PAGE))),
+    }));
+  }, [activeRecords.length, receivedRecords.length]);
+
+  function changePage(page: number) {
+    const nextPage = Math.max(1, Math.min(page, totalPages));
+    setRecordPages((current) => ({ ...current, [recordView]: nextPage }));
+    window.requestAnimationFrame(() => {
+      document.querySelector(".records-browser")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
 
   return (
     <>
@@ -193,13 +251,12 @@ export default function CustomerInfo({
             )}
 
             <div
-              key={recordView}
-              className={`active-records-frame records-browser-frame${hasScrollableRecords ? " is-scrollable" : ""}`}
-              tabIndex={hasScrollableRecords ? 0 : undefined}
+              key={`${recordView}-${currentPage}`}
+              className="active-records-frame records-browser-frame"
               role="tabpanel"
               aria-label={recordView === "active" ? "Bản ghi đang gửi" : "Bản ghi đã nhận"}
             >
-              {visibleRecords.length === 0 ? (
+              {selectedRecords.length === 0 ? (
                 <div className="empty-state records-browser-empty">
                   <div className="empty-state-icon" aria-hidden="true">📭</div>
                   <p className="empty-state-text">
@@ -216,6 +273,48 @@ export default function CustomerInfo({
                 </div>
               )}
             </div>
+
+            {totalPages > 1 && (
+              <nav className="record-pagination" aria-label="Phân trang bản ghi">
+                <button
+                  type="button"
+                  className="record-page-button record-page-nav"
+                  onClick={() => changePage(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  aria-label="Trang trước"
+                >
+                  <ChevronLeft aria-hidden="true" />
+                </button>
+
+                <div className="record-page-numbers">
+                  {getPageItems(totalPages, currentPage).map((item) =>
+                    typeof item === "number" ? (
+                      <button
+                        key={item}
+                        type="button"
+                        className={`record-page-button${item === currentPage ? " is-current" : ""}`}
+                        onClick={() => changePage(item)}
+                        aria-current={item === currentPage ? "page" : undefined}
+                      >
+                        {item}
+                      </button>
+                    ) : (
+                      <span className="record-page-ellipsis" key={item} aria-hidden="true">…</span>
+                    ),
+                  )}
+                </div>
+
+                <button
+                  type="button"
+                  className="record-page-button record-page-nav"
+                  onClick={() => changePage(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                  aria-label="Trang sau"
+                >
+                  <ChevronRight aria-hidden="true" />
+                </button>
+              </nav>
+            )}
           </section>
 
           <SiteFooter />
@@ -245,9 +344,7 @@ function RecordCard({ record: r }: { record: Record }) {
         {r.cards > 0 && (
           <div className="record-action-row">
             {cardAction && (
-              <span
-                className={`record-chip chip-action${cardAction.startsWith("Gửi") ? " chip-action-send" : ""}`}
-              >
+              <span className={`record-chip chip-action${cardAction.startsWith("Gửi") ? " chip-action-send" : ""}`}>
                 {cardAction}
               </span>
             )}
@@ -264,9 +361,7 @@ function RecordCard({ record: r }: { record: Record }) {
         {r.balls > 0 && (
           <div className="record-action-row">
             {ballAction && (
-              <span
-                className={`record-chip chip-action${ballAction.startsWith("Gửi") ? " chip-action-send" : ""}${ballAction === "Lấy bi" ? " chip-action-withdraw-ball" : ""}`}
-              >
+              <span className={`record-chip chip-action${ballAction.startsWith("Gửi") ? " chip-action-send" : ""}${ballAction === "Lấy bi" ? " chip-action-withdraw-ball" : ""}`}>
                 {ballAction}
               </span>
             )}
@@ -283,9 +378,7 @@ function RecordCard({ record: r }: { record: Record }) {
 
       {r.status === "Đang gửi" && (
         <div className="record-footer">
-          <span className="record-footer-label">
-            Tổng sau bản ghi:
-          </span>
+          <span className="record-footer-label">Tổng sau bản ghi:</span>
           <div className="record-footer-values">
             <span className="holding-item holding-item-card">
               <Ticket aria-hidden="true" />
