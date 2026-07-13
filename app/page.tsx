@@ -6,6 +6,7 @@ import "./light-glass-tuning.css";
 import { useState, useEffect, useCallback } from "react";
 import { Sun, Moon, Smartphone, Search, CircleDot } from "lucide-react";
 import CustomerInfo from "@/components/CustomerInfo";
+import SiteFooter from "@/components/SiteFooter";
 
 type CustomerData = {
   phone: string;
@@ -261,12 +262,7 @@ export default function HomePage() {
           </form>
         </div>
 
-        <footer className="footer site-footer animate-in animate-in-delay-2">
-          <div className="footer-brand">© aiThs</div>
-          <a className="footer-email" href="mailto:danhthai4560@gmail.com">
-            danhthai4560@gmail.com
-          </a>
-        </footer>
+        <SiteFooter className="animate-in animate-in-delay-2" />
       </main>
     </>
   );
