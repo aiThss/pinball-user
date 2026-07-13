@@ -1,0 +1,131 @@
+/* Mobile record layout refinements and refresh control. */
+
+body[data-pinball-user-theme] .top-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+
+body[data-pinball-user-theme] .refresh-btn {
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  border-radius: 50% !important;
+  color: var(--user-text);
+  font-family: inherit;
+  line-height: 1;
+  cursor: pointer;
+  outline: none;
+  transition:
+    opacity var(--user-transition),
+    transform var(--user-transition);
+}
+
+body[data-pinball-user-theme] .refresh-btn:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+body[data-pinball-user-theme] .refresh-btn:disabled {
+  cursor: wait;
+  opacity: 0.62;
+}
+
+body[data-pinball-user-theme] .refresh-btn.is-refreshing svg {
+  animation: user-spin 0.75s linear infinite;
+}
+
+body[data-pinball-user-theme] .refresh-error {
+  margin: -12px 4px 16px;
+  padding: 9px 12px;
+  border: 1px solid var(--user-err-border);
+  border-radius: var(--user-radius-sm);
+  background: var(--user-err-bg);
+  color: var(--user-err-color);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+body[data-pinball-user-theme] .record-body {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  width: 100%;
+}
+
+body[data-pinball-user-theme] .record-action-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: stretch;
+  gap: 10px;
+  width: 100%;
+}
+
+body[data-pinball-user-theme] .record-action-row .record-chip {
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  padding: 8px 10px;
+  justify-content: center;
+  font-size: 13px;
+  line-height: 1.2;
+  text-align: center;
+  white-space: nowrap;
+}
+
+body[data-pinball-user-theme] .record-action-row .chip-action {
+  min-height: 48px;
+  padding: 8px 10px;
+  font-size: 13px;
+  letter-spacing: 0.35px;
+}
+
+body[data-pinball-user-theme] .record-action-row .record-chip svg {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+}
+
+body[data-pinball-user-theme] .record-action-row .record-chip-full {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 360px) {
+  body[data-pinball-user-theme] .top-controls {
+    gap: 8px;
+  }
+
+  body[data-pinball-user-theme] .top-actions {
+    gap: 6px;
+  }
+
+  body[data-pinball-user-theme] .back-btn {
+    padding-inline: 12px;
+    font-size: 13px;
+  }
+
+  body[data-pinball-user-theme] .record-action-row {
+    gap: 8px;
+  }
+
+  body[data-pinball-user-theme] .record-action-row .record-chip,
+  body[data-pinball-user-theme] .record-action-row .chip-action {
+    min-height: 46px;
+    padding-inline: 6px;
+    font-size: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body[data-pinball-user-theme] .refresh-btn {
+    transition: none !important;
+  }
+
+  body[data-pinball-user-theme] .refresh-btn.is-refreshing svg {
+    animation: none;
+  }
+}
