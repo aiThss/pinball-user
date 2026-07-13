@@ -185,7 +185,7 @@ body[data-pinball-user-theme] .site-footer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
+  gap: 3px;
   opacity: 1;
   padding-bottom: max(8px, env(safe-area-inset-bottom));
 }
@@ -197,22 +197,54 @@ body[data-pinball-user-theme] .footer-brand {
   line-height: 1.3;
 }
 
-body[data-pinball-user-theme] .footer-email {
+body[data-pinball-user-theme] .footer-contact {
   display: inline-flex;
+  min-height: 44px;
   align-items: center;
   justify-content: center;
-  min-height: 44px;
+  gap: 3px;
   padding: 4px 10px;
   color: var(--user-accent);
   font-size: 12px;
+  font-weight: 650;
   line-height: 1.3;
   text-decoration: none;
   border-radius: 999px;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    opacity var(--user-transition),
+    transform var(--user-transition);
 }
 
-body[data-pinball-user-theme] .footer-email:focus-visible {
+body[data-pinball-user-theme] .footer-contact:hover {
+  opacity: 0.82;
+}
+
+body[data-pinball-user-theme] .footer-contact:active {
+  transform: scale(0.97);
+}
+
+body[data-pinball-user-theme] .footer-contact:focus-visible {
   outline: 2px solid var(--user-input-focus-ring);
   outline-offset: 2px;
+}
+
+body[data-pinball-user-theme] .footer-contact-arrow {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+  animation: footer-contact-bounce 1.25s ease-in-out infinite;
+}
+
+@keyframes footer-contact-bounce {
+  0%,
+  100% {
+    transform: translateY(-2px);
+  }
+
+  50% {
+    transform: translateY(3px);
+  }
 }
 
 @media (max-width: 360px) {
@@ -253,11 +285,13 @@ body[data-pinball-user-theme] .footer-email:focus-visible {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  body[data-pinball-user-theme] .section-refresh-btn {
+  body[data-pinball-user-theme] .section-refresh-btn,
+  body[data-pinball-user-theme] .footer-contact {
     transition: none !important;
   }
 
-  body[data-pinball-user-theme] .section-refresh-btn.is-refreshing svg {
+  body[data-pinball-user-theme] .section-refresh-btn.is-refreshing svg,
+  body[data-pinball-user-theme] .footer-contact-arrow {
     animation: none;
   }
 }
