@@ -39,11 +39,16 @@ export async function GET(request: NextRequest) {
       .sort({ createdAt: -1 })
       .lean();
 
-    // Tính tổng thẻ + bi đang giữ (chỉ bản ghi "Đang gửi" và không phải lấy)
+    // Build a cumulative holding snapshot after each active record.
+    // Deposits are queried newest-first, so reverse a copy for chronological totals.
     let totalCards = 0;
     let totalBalls = 0;
+    const holdingTotalsByRecordId = new Map<
+      string,
+      { cards: number; balls: number }
+    >();
 
-    for (const d of deposits) {
+    for (const d of [...deposits].reverse()) {
       if (d.status === ACTIVE_STATUS) {
         if (d.cardAction !== CARD_WITHDRAW) {
           totalCards += d.remainingCards ?? d.cards;
@@ -52,23 +57,40 @@ export async function GET(request: NextRequest) {
           totalBalls += d.remainingBalls ?? d.balls;
         }
       }
+
+      holdingTotalsByRecordId.set(String(d._id), {
+        cards: totalCards,
+        balls: totalBalls,
+      });
     }
 
-    const records = deposits.map((d) => ({
-      id: String(d._id),
-      depositDate: d.depositDate,
-      depositTime: d.depositTime,
-      cardAction: d.cardAction,
-      ballAction: d.ballAction,
-      cards: d.cards,
-      balls: d.balls,
-      remainingCards: d.remainingCards ?? d.cards,
-      remainingBalls: d.remainingBalls ?? d.balls,
-      totalText: d.totalText,
-      status: d.status,
-      createdByName: d.createdByName,
-      createdAt: d.createdAt instanceof Date ? d.createdAt.toISOString() : String(d.createdAt),
-    }));
+    const records = deposits.map((d) => {
+      const holdingTotals = holdingTotalsByRecordId.get(String(d._id)) ?? {
+        cards: 0,
+        balls: 0,
+      };
+
+      return {
+        id: String(d._id),
+        depositDate: d.depositDate,
+        depositTime: d.depositTime,
+        cardAction: d.cardAction,
+        ballAction: d.ballAction,
+        cards: d.cards,
+        balls: d.balls,
+        remainingCards: d.remainingCards ?? d.cards,
+        remainingBalls: d.remainingBalls ?? d.balls,
+        totalCardsAtRecord: holdingTotals.cards,
+        totalBallsAtRecord: holdingTotals.balls,
+        totalText: d.totalText,
+        status: d.status,
+        createdByName: d.createdByName,
+        createdAt:
+          d.createdAt instanceof Date
+            ? d.createdAt.toISOString()
+            : String(d.createdAt),
+      };
+    });
 
     return NextResponse.json({
       phone,
