@@ -1,53 +1,4 @@
-/* Mobile record layout refinements and refresh control. */
-
-body[data-pinball-user-theme] .top-actions {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  flex: 0 0 auto;
-}
-
-body[data-pinball-user-theme] .refresh-btn {
-  width: 44px;
-  height: 44px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex: 0 0 auto;
-  border-radius: 50% !important;
-  color: var(--user-text);
-  font-family: inherit;
-  line-height: 1;
-  cursor: pointer;
-  outline: none;
-  transition:
-    opacity var(--user-transition),
-    transform var(--user-transition);
-}
-
-body[data-pinball-user-theme] .refresh-btn:active:not(:disabled) {
-  transform: scale(0.96);
-}
-
-body[data-pinball-user-theme] .refresh-btn:disabled {
-  cursor: wait;
-  opacity: 0.62;
-}
-
-body[data-pinball-user-theme] .refresh-btn.is-refreshing svg {
-  animation: user-spin 0.75s linear infinite;
-}
-
-body[data-pinball-user-theme] .refresh-error {
-  margin: -12px 4px 16px;
-  padding: 9px 12px;
-  border: 1px solid var(--user-err-border);
-  border-radius: var(--user-radius-sm);
-  background: var(--user-err-bg);
-  color: var(--user-err-color);
-  font-size: 12px;
-  line-height: 1.4;
-}
+/* Mobile record layout refinements, active-list viewport and footer branding. */
 
 body[data-pinball-user-theme] .record-body {
   display: flex;
@@ -94,13 +45,160 @@ body[data-pinball-user-theme] .record-action-row .record-chip-full {
   grid-column: 1 / -1;
 }
 
+body[data-pinball-user-theme] .active-records-section {
+  width: 100%;
+}
+
+body[data-pinball-user-theme] .active-records-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 44px;
+  margin-bottom: 12px;
+  padding-inline: 4px;
+}
+
+body[data-pinball-user-theme] .active-records-title {
+  min-width: 0;
+  margin-bottom: 0;
+  flex: 1 1 auto;
+}
+
+body[data-pinball-user-theme] .active-records-title span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+body[data-pinball-user-theme] .section-refresh-btn {
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--user-text-muted);
+  cursor: pointer;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    color var(--user-transition),
+    opacity var(--user-transition),
+    transform var(--user-transition);
+}
+
+body[data-pinball-user-theme] .section-refresh-btn svg {
+  width: 23px;
+  height: 23px;
+  display: block;
+}
+
+body[data-pinball-user-theme] .section-refresh-btn:hover:not(:disabled),
+body[data-pinball-user-theme] .section-refresh-btn:focus-visible {
+  color: var(--user-accent);
+}
+
+body[data-pinball-user-theme] .section-refresh-btn:focus-visible {
+  box-shadow: 0 0 0 2px var(--user-input-focus-ring);
+}
+
+body[data-pinball-user-theme] .section-refresh-btn:active:not(:disabled) {
+  transform: scale(0.92);
+}
+
+body[data-pinball-user-theme] .section-refresh-btn:disabled {
+  cursor: wait;
+  opacity: 0.58;
+}
+
+body[data-pinball-user-theme] .section-refresh-btn.is-refreshing svg {
+  animation: user-spin 0.75s linear infinite;
+}
+
+body[data-pinball-user-theme] .active-records-error {
+  margin: 0 4px 12px;
+}
+
+body[data-pinball-user-theme] .active-records-frame {
+  width: 100%;
+  border-radius: 22px;
+}
+
+body[data-pinball-user-theme] .active-records-frame.is-scrollable {
+  height: clamp(430px, 68dvh, 580px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  scrollbar-width: thin;
+  scrollbar-color: var(--user-glass-border-2) transparent;
+  padding: 3px 4px 18px 2px;
+  border: 1px solid var(--user-glass-border-2);
+  background: var(--user-glass-soft);
+  box-shadow: inset 0 1px 0 var(--user-glass-highlight);
+}
+
+body[data-pinball-user-theme] .active-records-frame.is-scrollable::-webkit-scrollbar {
+  width: 4px;
+}
+
+body[data-pinball-user-theme] .active-records-frame.is-scrollable::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+body[data-pinball-user-theme] .active-records-frame.is-scrollable::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: var(--user-glass-border-2);
+}
+
+body[data-pinball-user-theme] .active-records-frame:focus-visible {
+  outline: 2px solid var(--user-input-focus-ring);
+  outline-offset: 3px;
+}
+
+body[data-pinball-user-theme] .site-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  opacity: 1;
+  padding-bottom: max(8px, env(safe-area-inset-bottom));
+}
+
+body[data-pinball-user-theme] .footer-brand {
+  color: var(--user-text-secondary);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+body[data-pinball-user-theme] .footer-email {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 4px 10px;
+  color: var(--user-accent);
+  font-size: 12px;
+  line-height: 1.3;
+  text-decoration: none;
+  border-radius: 999px;
+}
+
+body[data-pinball-user-theme] .footer-email:focus-visible {
+  outline: 2px solid var(--user-input-focus-ring);
+  outline-offset: 2px;
+}
+
 @media (max-width: 360px) {
   body[data-pinball-user-theme] .top-controls {
     gap: 8px;
-  }
-
-  body[data-pinball-user-theme] .top-actions {
-    gap: 6px;
   }
 
   body[data-pinball-user-theme] .back-btn {
@@ -118,14 +216,23 @@ body[data-pinball-user-theme] .record-action-row .record-chip-full {
     padding-inline: 6px;
     font-size: 12px;
   }
+
+  body[data-pinball-user-theme] .active-records-toolbar {
+    gap: 8px;
+    padding-inline: 0;
+  }
+
+  body[data-pinball-user-theme] .active-records-frame.is-scrollable {
+    height: clamp(420px, 66dvh, 540px);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  body[data-pinball-user-theme] .refresh-btn {
+  body[data-pinball-user-theme] .section-refresh-btn {
     transition: none !important;
   }
 
-  body[data-pinball-user-theme] .refresh-btn.is-refreshing svg {
+  body[data-pinball-user-theme] .section-refresh-btn.is-refreshing svg {
     animation: none;
   }
 }
