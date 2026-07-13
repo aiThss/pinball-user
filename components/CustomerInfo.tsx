@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { formatDate } from "@/lib/utils";
 import {
   Sun,
@@ -38,6 +39,8 @@ type CustomerData = {
   records: Record[];
 };
 
+type RecordView = "active" | "received";
+
 function getStatusClass(status: string) {
   if (status === "Đang gửi") return "status-active";
   if (status === "Đã nhận lại") return "status-done";
@@ -69,9 +72,12 @@ export default function CustomerInfo({
   theme: "light" | "dark";
   onToggleTheme: () => void;
 }) {
-  const activeRecords = data.records.filter((r) => r.status === "Đang gửi");
-  const oldRecords = data.records.filter((r) => r.status !== "Đang gửi");
-  const hasScrollableActiveRecords = activeRecords.length > 2;
+  const [recordView, setRecordView] = useState<RecordView>("active");
+
+  const activeRecords = data.records.filter((record) => record.status === "Đang gửi");
+  const receivedRecords = data.records.filter((record) => record.status !== "Đang gửi");
+  const visibleRecords = recordView === "active" ? activeRecords : receivedRecords;
+  const hasScrollableRecords = visibleRecords.length > 2;
 
   return (
     <>
@@ -136,11 +142,11 @@ export default function CustomerInfo({
             </div>
           </div>
 
-          <section className="active-records-section animate-in animate-in-delay-2">
-            <div className="active-records-toolbar">
-              <div className="section-title active-records-title">
+          <section className="records-browser animate-in animate-in-delay-2">
+            <div className="records-browser-heading">
+              <div className="section-title records-browser-title">
                 <ClipboardList className="w-4 h-4" aria-hidden="true" />
-                <span>BẢN GHI ĐANG GỬI ({activeRecords.length})</span>
+                <span>BẢN GHI</span>
               </div>
 
               <button
@@ -156,45 +162,61 @@ export default function CustomerInfo({
               </button>
             </div>
 
+            <div className="record-tabs glass-surface" role="tablist" aria-label="Loại bản ghi">
+              <button
+                type="button"
+                role="tab"
+                aria-selected={recordView === "active"}
+                className={`record-tab record-tab-active${recordView === "active" ? " is-selected" : ""}`}
+                onClick={() => setRecordView("active")}
+              >
+                <span>Đang gửi</span>
+                <strong>{activeRecords.length}</strong>
+              </button>
+
+              <button
+                type="button"
+                role="tab"
+                aria-selected={recordView === "received"}
+                className={`record-tab record-tab-received${recordView === "received" ? " is-selected" : ""}`}
+                onClick={() => setRecordView("received")}
+              >
+                <span>Đã nhận</span>
+                <strong>{receivedRecords.length}</strong>
+              </button>
+            </div>
+
             {refreshError && (
-              <div className="refresh-error active-records-error" role="alert">
+              <div className="refresh-error records-browser-error" role="alert">
                 {refreshError}
               </div>
             )}
 
-            {activeRecords.length === 0 ? (
-              <div className="card empty-state glass-surface-soft">
-                <div className="empty-state-icon" aria-hidden="true">📭</div>
-                <p className="empty-state-text">Không có bản ghi đang gửi.</p>
-              </div>
-            ) : (
-              <div
-                className={`active-records-frame${hasScrollableActiveRecords ? " is-scrollable" : ""}`}
-                tabIndex={hasScrollableActiveRecords ? 0 : undefined}
-                aria-label="Danh sách bản ghi đang gửi"
-              >
+            <div
+              key={recordView}
+              className={`active-records-frame records-browser-frame${hasScrollableRecords ? " is-scrollable" : ""}`}
+              tabIndex={hasScrollableRecords ? 0 : undefined}
+              role="tabpanel"
+              aria-label={recordView === "active" ? "Bản ghi đang gửi" : "Bản ghi đã nhận"}
+            >
+              {visibleRecords.length === 0 ? (
+                <div className="empty-state records-browser-empty">
+                  <div className="empty-state-icon" aria-hidden="true">📭</div>
+                  <p className="empty-state-text">
+                    {recordView === "active"
+                      ? "Không có bản ghi đang gửi."
+                      : "Không có bản ghi đã nhận."}
+                  </p>
+                </div>
+              ) : (
                 <div className="records-list" role="list">
-                  {activeRecords.map((r) => (
-                    <RecordCard key={r.id} record={r} />
+                  {visibleRecords.map((record) => (
+                    <RecordCard key={record.id} record={record} />
                   ))}
                 </div>
-              </div>
-            )}
-          </section>
-
-          {oldRecords.length > 0 && (
-            <div className="animate-in animate-in-delay-3" style={{ marginTop: 24 }}>
-              <div className="section-title">
-                <ClipboardList className="w-4 h-4 inline-block mr-1" aria-hidden="true" />
-                Lịch sử cũ ({oldRecords.length})
-              </div>
-              <div className="records-list" role="list">
-                {oldRecords.map((r) => (
-                  <RecordCard key={r.id} record={r} />
-                ))}
-              </div>
+              )}
             </div>
-          )}
+          </section>
 
           <SiteFooter />
         </div>
