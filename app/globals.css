@@ -42,9 +42,9 @@ body {
   --user-text-muted: #8a8a8e;
 
   /* Glass layers */
-  --user-glass: rgba(255, 255, 255, 0.48);
-  --user-glass-strong: rgba(255, 255, 255, 0.72);
-  --user-glass-soft: rgba(255, 255, 255, 0.30);
+  --user-glass: rgba(255, 255, 255, 0.25);
+  --user-glass-strong: rgba(255, 255, 255, 0.44);
+  --user-glass-soft: rgba(255, 255, 255, 0.14);
 
   /* Borders */
   --user-glass-border: rgba(255, 255, 255, 0.84);
@@ -60,7 +60,7 @@ body {
     0 1px 4px rgba(15, 23, 42, 0.04);
 
   /* Input */
-  --user-input-bg: rgba(255, 255, 255, 0.56);
+  --user-input-bg: rgba(255, 255, 255, 0.30);
   --user-input-border: rgba(60, 60, 67, 0.16);
   --user-input-border-focus: #007aff;
   --user-input-focus-ring: rgba(0, 122, 255, 0.15);
@@ -78,15 +78,15 @@ body {
 
   /* Avatar */
   --user-avatar-bg:          linear-gradient(135deg, #007aff, #0891b2);
-  --user-avatar-shadow:      0 4px 16px rgba(0, 122, 255, 0.25);
+  --user-avatar-shadow:      0 4px 12px rgba(0, 0, 0, 0.05);
 
   /* Stat cards */
-  --user-stat-card-bg:       rgba(255, 255, 255, 0.42);
+  --user-stat-card-bg:       rgba(255, 255, 255, 0.22);
   --user-stat-1-border:      rgba(60, 60, 67, 0.12);
-  --user-stat-1-bg:          rgba(255, 255, 255, 0.20);
+  --user-stat-1-bg:          rgba(255, 255, 255, 0.12);
   --user-stat-1-value:       #007aff;
   --user-stat-2-border:      rgba(60, 60, 67, 0.12);
-  --user-stat-2-bg:          rgba(255, 255, 255, 0.20);
+  --user-stat-2-bg:          rgba(255, 255, 255, 0.12);
   --user-stat-2-value:       #0891b2;
 
   /* Chips */
@@ -146,6 +146,30 @@ body {
 
   /* Theme icon */
   --user-theme-icon: "☀️";
+
+  /* Glass Surface Tokens */
+  --user-glass-bg-from: rgba(255, 255, 255, 0.24);
+  --user-glass-bg-to: rgba(255, 255, 255, 0.08);
+  --user-glass-border-color: rgba(255, 255, 255, 0.58);
+  --user-glass-blur: 20px;
+  --user-glass-saturate: 140%;
+  --user-glass-shadow: 0 12px 32px rgba(15, 23, 42, 0.05);
+  --user-glass-inner-top: rgba(255, 255, 255, 0.88);
+  --user-glass-inner-bottom: rgba(255, 255, 255, 0.12);
+
+  --user-glass-strong-bg-from: rgba(255, 255, 255, 0.34);
+  --user-glass-strong-bg-to: rgba(255, 255, 255, 0.12);
+  --user-glass-strong-border-color: rgba(255, 255, 255, 0.58);
+  --user-glass-strong-blur: 28px;
+  --user-glass-strong-saturate: 155%;
+  --user-glass-strong-shadow: 0 18px 42px rgba(15, 23, 42, 0.09);
+
+  --user-glass-soft-bg-from: rgba(255, 255, 255, 0.14);
+  --user-glass-soft-bg-to: rgba(255, 255, 255, 0.04);
+  --user-glass-soft-border-color: rgba(255, 255, 255, 0.35);
+  --user-glass-soft-blur: 10px;
+  --user-glass-soft-saturate: 120%;
+  --user-glass-soft-shadow: 0 4px 14px rgba(15, 23, 42, 0.03);
 }
 
 /* ============================================================
@@ -272,6 +296,30 @@ body {
 
   /* Theme icon */
   --user-theme-icon: "🌙";
+
+  /* Glass Surface Tokens */
+  --user-glass-bg-from: rgba(44, 44, 46, 0.38);
+  --user-glass-bg-to: rgba(28, 28, 30, 0.20);
+  --user-glass-border-color: rgba(255, 255, 255, 0.12);
+  --user-glass-blur: 20px;
+  --user-glass-saturate: 130%;
+  --user-glass-shadow: 0 16px 45px rgba(0, 0, 0, 0.35);
+  --user-glass-inner-top: rgba(255, 255, 255, 0.15);
+  --user-glass-inner-bottom: rgba(255, 255, 255, 0.03);
+
+  --user-glass-strong-bg-from: rgba(44, 44, 46, 0.52);
+  --user-glass-strong-bg-to: rgba(28, 28, 30, 0.28);
+  --user-glass-strong-border-color: rgba(255, 255, 255, 0.18);
+  --user-glass-strong-blur: 28px;
+  --user-glass-strong-saturate: 145%;
+  --user-glass-strong-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+
+  --user-glass-soft-bg-from: rgba(44, 44, 46, 0.26);
+  --user-glass-soft-bg-to: rgba(28, 28, 30, 0.12);
+  --user-glass-soft-border-color: rgba(255, 255, 255, 0.08);
+  --user-glass-soft-blur: 10px;
+  --user-glass-soft-saturate: 110%;
+  --user-glass-soft-shadow: 0 6px 16px rgba(0, 0, 0, 0.20);
 }
 
 /* ============================================================
@@ -281,13 +329,59 @@ body {
 /* --- Base body & background --- */
 [data-pinball-user-theme] body,
 [data-pinball-user-theme].body-host {
-  background: linear-gradient(145deg, var(--user-bg-grad-from), var(--user-bg-grad-to));
   color: var(--user-text);
 }
 
-/* Target body directly since data attr is on body */
-body[data-pinball-user-theme] {
-  background: linear-gradient(145deg, var(--user-bg-grad-from), var(--user-bg-grad-to));
+/* Target body directly since data attr is on body (Task 3 & 4) */
+body[data-pinball-user-theme="light"] {
+  background:
+    radial-gradient(
+      circle at 8% 5%,
+      rgba(105, 170, 255, 0.24),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 94% 20%,
+      rgba(190, 145, 255, 0.17),
+      transparent 29%
+    ),
+    radial-gradient(
+      circle at 48% 72%,
+      rgba(80, 210, 230, 0.14),
+      transparent 35%
+    ),
+    linear-gradient(
+      160deg,
+      #ffffff 0%,
+      #f3f4f8 46%,
+      #e9ecf2 100%
+    );
+  color: var(--user-text);
+}
+
+body[data-pinball-user-theme="dark"] {
+  background:
+    radial-gradient(
+      circle at 10% 5%,
+      rgba(55, 110, 255, 0.21),
+      transparent 31%
+    ),
+    radial-gradient(
+      circle at 92% 18%,
+      rgba(135, 75, 220, 0.15),
+      transparent 29%
+    ),
+    radial-gradient(
+      circle at 50% 76%,
+      rgba(20, 155, 185, 0.11),
+      transparent 36%
+    ),
+    linear-gradient(
+      160deg,
+      #030303 0%,
+      #101012 47%,
+      #1c1c1e 100%
+    );
   color: var(--user-text);
 }
 
@@ -342,7 +436,89 @@ body[data-pinball-user-theme] .page-wrapper {
   }
 }
 
-/* ========== Theme toggle button ========== */
+/* ========== Liquid Glass Utility classes (Task 5 & 6) ========== */
+.glass-surface {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(145deg, var(--user-glass-bg-from), var(--user-glass-bg-to));
+  border: 1px solid var(--user-glass-border-color);
+  backdrop-filter: blur(var(--user-glass-blur)) saturate(var(--user-glass-saturate));
+  -webkit-backdrop-filter: blur(var(--user-glass-blur)) saturate(var(--user-glass-saturate));
+  box-shadow:
+    var(--user-glass-shadow),
+    inset 0 1px 0 var(--user-glass-inner-top),
+    inset 0 -1px 0 var(--user-glass-inner-bottom);
+}
+
+.glass-surface-strong {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(145deg, var(--user-glass-strong-bg-from), var(--user-glass-strong-bg-to));
+  border: 1px solid var(--user-glass-strong-border-color);
+  backdrop-filter: blur(var(--user-glass-strong-blur)) saturate(var(--user-glass-strong-saturate));
+  -webkit-backdrop-filter: blur(var(--user-glass-strong-blur)) saturate(var(--user-glass-strong-saturate));
+  box-shadow:
+    var(--user-glass-strong-shadow),
+    inset 0 1px 0 var(--user-glass-inner-top),
+    inset 0 -1px 0 var(--user-glass-inner-bottom);
+}
+
+.glass-surface-soft {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(145deg, var(--user-glass-soft-bg-from), var(--user-glass-soft-bg-to));
+  border: 1px solid var(--user-glass-soft-border-color);
+  backdrop-filter: blur(var(--user-glass-soft-blur)) saturate(var(--user-glass-soft-saturate));
+  -webkit-backdrop-filter: blur(var(--user-glass-soft-blur)) saturate(var(--user-glass-soft-saturate));
+  box-shadow:
+    var(--user-glass-soft-shadow),
+    inset 0 1px 0 var(--user-glass-inner-top),
+    inset 0 -1px 0 var(--user-glass-inner-bottom);
+}
+
+/* Reflection chéo overlays */
+.glass-surface::before,
+.glass-surface-strong::before,
+.glass-surface-soft::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background:
+    linear-gradient(
+      118deg,
+      rgba(255, 255, 255, 0.34) 0%,
+      rgba(255, 255, 255, 0.08) 24%,
+      transparent 48%
+    );
+  opacity: 0.72;
+  z-index: 0;
+}
+
+.glass-surface::after,
+.glass-surface-strong::after,
+.glass-surface-soft::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  pointer-events: none;
+  border-radius: inherit;
+  box-shadow:
+    inset 1px 1px 0 rgba(255, 255, 255, 0.30),
+    inset -1px -1px 0 rgba(255, 255, 255, 0.05);
+  z-index: 0;
+}
+
+/* Đảm bảo nội dung thật nằm trên pseudo-element bằng z-index */
+.glass-surface > *,
+.glass-surface-strong > *,
+.glass-surface-soft > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ========== Theme toggle button (Task 1) ========== */
 body[data-pinball-user-theme] .theme-toggle {
   width: 44px;
   height: 44px;
@@ -350,25 +526,20 @@ body[data-pinball-user-theme] .theme-toggle {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: var(--user-glass-strong);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--user-glass-border);
-  box-shadow: var(--user-shadow-sm);
   cursor: pointer;
-  transition: transform var(--user-transition), box-shadow var(--user-transition);
   color: var(--user-text);
   font-family: inherit;
   line-height: 1;
   outline: none;
   flex-shrink: 0;
+  border-radius: 50% !important; /* override utility shape */
 }
 body[data-pinball-user-theme] .theme-toggle:active {
   transform: scale(0.96);
 }
 
-/* For enter phone page, place it absolute at top right of the page wrapper */
-body[data-pinball-user-theme] .page-wrapper > .theme-toggle {
+/* Absolute position for the theme toggle on the login page wrapper */
+body[data-pinball-user-theme] .login-theme-toggle {
   position: absolute;
   top: max(16px, env(safe-area-inset-top));
   right: 16px;
@@ -376,7 +547,7 @@ body[data-pinball-user-theme] .page-wrapper > .theme-toggle {
 }
 
 @media (max-width: 320px) {
-  body[data-pinball-user-theme] .page-wrapper > .theme-toggle {
+  body[data-pinball-user-theme] .login-theme-toggle {
     right: 12px;
   }
 }
@@ -390,6 +561,8 @@ body[data-pinball-user-theme] .top-controls {
   width: 100%;
   margin-bottom: 24px;
   min-height: 44px;
+  border-radius: 100px;
+  padding: 4px;
 }
 
 /* ========== Header / Brand ========== */
@@ -404,13 +577,6 @@ body[data-pinball-user-theme] .brand-icon {
   justify-content: center;
   width: 72px; height: 72px;
   border-radius: var(--user-radius-lg);
-  background: var(--user-glass-strong);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--user-glass-border);
-  box-shadow:
-    var(--user-shadow-sm),
-    inset 0 1px 0 var(--user-glass-highlight);
   font-size: 32px;
   margin-bottom: 16px;
   animation: user-float 3.5s ease-in-out infinite;
@@ -437,14 +603,7 @@ body[data-pinball-user-theme] .brand-sub {
 
 /* ========== Glass Card ========== */
 body[data-pinball-user-theme] .card {
-  background: var(--user-glass);
-  border: 1px solid var(--user-glass-border);
   border-radius: 28px;
-  backdrop-filter: blur(24px) saturate(160%);
-  -webkit-backdrop-filter: blur(24px) saturate(160%);
-  box-shadow:
-    var(--user-shadow),
-    inset 0 1px 0 var(--user-glass-highlight);
   padding: 24px;
   width: 100%;
   position: relative;
@@ -456,20 +615,6 @@ body[data-pinball-user-theme] .card {
     padding: 20px 16px;
     border-radius: 24px;
   }
-}
-
-/* Top highlight edge */
-body[data-pinball-user-theme] .card::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 1px;
-  background: linear-gradient(90deg,
-    transparent 0%,
-    var(--user-glass-highlight) 30%,
-    var(--user-glass-highlight) 70%,
-    transparent 100%
-  );
 }
 
 /* ========== Phone input form ========== */
@@ -493,6 +638,7 @@ body[data-pinball-user-theme] .input-icon {
   color: var(--user-text-muted);
   font-size: 18px;
   pointer-events: none;
+  z-index: 2;
 }
 body[data-pinball-user-theme] .phone-input {
   width: 100%;
@@ -512,8 +658,8 @@ body[data-pinball-user-theme] .phone-input {
     background var(--user-transition);
   outline: none;
   -moz-appearance: textfield;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(12px) saturate(140%) !important; /* Blur 12px */
+  -webkit-backdrop-filter: blur(12px) saturate(140%) !important;
 }
 body[data-pinball-user-theme] .phone-input::-webkit-outer-spin-button,
 body[data-pinball-user-theme] .phone-input::-webkit-inner-spin-button { -webkit-appearance: none; }
@@ -524,7 +670,7 @@ body[data-pinball-user-theme] .phone-input::placeholder {
 }
 body[data-pinball-user-theme] .phone-input:focus {
   border-color: var(--user-input-border-focus);
-  box-shadow: 0 0 0 3px var(--user-input-focus-ring);
+  box-shadow: 0 0 0 1px var(--user-input-border-focus); /* Focus ring mỏng */
   background: var(--user-glass-strong);
 }
 
@@ -568,7 +714,7 @@ body[data-pinball-user-theme] .error-msg {
   gap: 8px;
 }
 
-/* Submit button */
+/* Submit button (Task 8) */
 body[data-pinball-user-theme] .btn-primary {
   display: flex;
   align-items: center;
@@ -590,7 +736,9 @@ body[data-pinball-user-theme] .btn-primary {
     opacity var(--user-transition),
     transform var(--user-transition),
     box-shadow var(--user-transition);
-  box-shadow: var(--user-btn-shadow);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.34),
+    0 8px 22px rgba(0, 122, 255, 0.20);
   position: relative;
   overflow: hidden;
 }
@@ -630,11 +778,6 @@ body[data-pinball-user-theme] .back-btn {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: var(--user-glass-soft);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--user-glass-border-2);
-  border-radius: 100px;
   color: var(--user-text-secondary);
   font-size: 14px;
   font-family: "Inter", system-ui, sans-serif;
@@ -643,6 +786,7 @@ body[data-pinball-user-theme] .back-btn {
   min-height: 44px;
   cursor: pointer;
   transition: all var(--user-transition);
+  border-radius: 100px !important;
 }
 body[data-pinball-user-theme] .back-btn:hover {
   color: var(--user-back-hover-color);
@@ -653,18 +797,11 @@ body[data-pinball-user-theme] .back-btn:active {
   transform: scale(0.98);
 }
 
-/* Profile header card */
+/* Profile header card (Task 7) */
 body[data-pinball-user-theme] .profile-card {
-  background: var(--user-profile-grad);
-  border: 1px solid var(--user-profile-border);
   border-radius: 28px;
   padding: 20px;
   margin-bottom: 20px;
-  backdrop-filter: blur(24px) saturate(150%);
-  -webkit-backdrop-filter: blur(24px) saturate(150%);
-  box-shadow:
-    var(--user-shadow),
-    inset 0 1px 0 var(--user-glass-highlight);
   position: relative;
   overflow: hidden;
 }
@@ -676,19 +813,6 @@ body[data-pinball-user-theme] .profile-card {
   }
 }
 
-body[data-pinball-user-theme] .profile-card::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 1px;
-  background: linear-gradient(90deg,
-    transparent 0%,
-    var(--user-glass-highlight) 40%,
-    var(--user-glass-highlight) 60%,
-    transparent 100%
-  );
-}
-
 body[data-pinball-user-theme] .profile-avatar {
   width: 60px; height: 60px;
   border-radius: 50%;
@@ -698,8 +822,9 @@ body[data-pinball-user-theme] .profile-avatar {
   font-weight: 800;
   color: #fff;
   margin-bottom: 12px;
-  box-shadow: var(--user-avatar-shadow);
-  border: 2px solid rgba(255,255,255,0.30);
+  border: 2px solid rgba(255,255,255,0.40); /* viền kính trắng nhẹ */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* giảm glow xanh */
+  border-radius: 50% !important;
 }
 body[data-pinball-user-theme] .profile-name {
   font-size: 24px;
@@ -713,6 +838,8 @@ body[data-pinball-user-theme] .profile-phone {
   color: var(--user-text-secondary);
   margin-top: 4px;
   font-variant-numeric: tabular-nums;
+  display: flex;
+  align-items: center;
 }
 
 /* Stats row - Grid 2 columns */
@@ -724,27 +851,16 @@ body[data-pinball-user-theme] .stats-row {
   width: 100%;
 }
 body[data-pinball-user-theme] .stat-card {
-  background: var(--user-stat-card-bg);
-  border: 1px solid var(--user-glass-border-2);
-  border-radius: var(--user-radius-md);
   padding: 16px 12px;
   text-align: center;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   transition: all var(--user-transition);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   min-height: 110px;
+  border-radius: var(--user-radius-md);
 }
-body[data-pinball-user-theme] .stat-card:first-child {
-  border-color: var(--user-stat-1-border);
-  background: var(--user-stat-1-bg);
-}
-body[data-pinball-user-theme] .stat-card:last-child {
-  border-color: var(--user-stat-2-border);
-  background: var(--user-stat-2-bg);
-}
+
 body[data-pinball-user-theme] .stat-icon { font-size: 22px; margin-bottom: 6px; }
 body[data-pinball-user-theme] .stat-value {
   font-size: clamp(28px, 9vw, 40px);
@@ -752,8 +868,8 @@ body[data-pinball-user-theme] .stat-value {
   line-height: 1.1;
   margin-block: 4px;
 }
-body[data-pinball-user-theme] .stat-card:first-child .stat-value { color: var(--user-stat-1-value); }
-body[data-pinball-user-theme] .stat-card:last-child  .stat-value { color: var(--user-stat-2-value); }
+body[data-pinball-user-theme] .stat-card:first-child .stat-value { color: var(--user-accent); }
+body[data-pinball-user-theme] .stat-card:last-child  .stat-value { color: var(--user-accent-2); }
 body[data-pinball-user-theme] .stat-label {
   font-size: 11px;
   font-weight: 700;
@@ -798,26 +914,14 @@ body[data-pinball-user-theme] .records-list {
 }
 
 body[data-pinball-user-theme] .record-card {
-  background: var(--user-glass);
-  border: 1px solid var(--user-glass-border);
   border-radius: var(--user-radius-md);
   padding: 16px;
-  backdrop-filter: blur(8px) saturate(140%);
-  -webkit-backdrop-filter: blur(8px) saturate(140%);
   transition:
     background var(--user-transition),
     border-color var(--user-transition),
     transform var(--user-transition);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
   position: relative;
   overflow: hidden;
-}
-body[data-pinball-user-theme] .record-card::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 12px; right: 12px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--user-glass-highlight), transparent);
 }
 body[data-pinball-user-theme] .record-card:hover {
   background: var(--user-glass-strong);
@@ -930,6 +1034,7 @@ body[data-pinball-user-theme] .empty-state {
   text-align: center;
   padding: 40px 20px;
   color: var(--user-text-muted);
+  border-radius: var(--user-radius-md);
 }
 body[data-pinball-user-theme] .empty-state-icon { font-size: 40px; margin-bottom: 12px; }
 body[data-pinball-user-theme] .empty-state-text { font-size: 15px; }

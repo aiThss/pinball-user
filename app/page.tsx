@@ -2,7 +2,7 @@
 
 import "./globals.css";
 import { useState, useEffect, useCallback } from "react";
-import { Sun, Moon } from "lucide-react";
+import { Sun, Moon, Smartphone, Search, CircleDot } from "lucide-react";
 import CustomerInfo from "@/components/CustomerInfo";
 
 type CustomerData = {
@@ -133,43 +133,47 @@ export default function HomePage() {
         <div className="bg-orb bg-orb-3" />
       </div>
 
-      {/* Theme toggle */}
-      <button
-        className="theme-toggle"
-        onClick={toggleTheme}
-        aria-label={theme === "dark" ? "Chuyển sang giao diện sáng" : "Chuyển sang giao diện tối"}
-        title={theme === "dark" ? "Light Glass" : "Dark Glass"}
-      >
-        {theme === "dark" ? (
-          <Sun className="w-[18px] h-[18px]" aria-hidden="true" style={{ display: "block" }} />
-        ) : (
-          <Moon className="w-[18px] h-[18px]" aria-hidden="true" style={{ display: "block" }} />
-        )}
-      </button>
-
       <main className="page-wrapper">
+        {/* Theme toggle as the first child of page-wrapper */}
+        <button
+          className="theme-toggle login-theme-toggle glass-surface"
+          onClick={toggleTheme}
+          aria-label={theme === "dark" ? "Chuyển sang giao diện sáng" : "Chuyển sang giao diện tối"}
+          title={theme === "dark" ? "Light Glass" : "Dark Glass"}
+        >
+          {theme === "dark" ? (
+            <Sun className="w-[18px] h-[18px]" aria-hidden="true" style={{ display: "block" }} />
+          ) : (
+            <Moon className="w-[18px] h-[18px]" aria-hidden="true" style={{ display: "block" }} />
+          )}
+        </button>
+
         {/* Brand */}
         <div className="brand animate-in">
-          <div className="brand-icon" aria-hidden="true">🎱</div>
+          <div className="brand-icon glass-surface" aria-hidden="true">
+            <CircleDot className="w-8 h-8 text-blue-500" />
+          </div>
           <h1 className="brand-title">Ký Gửi Pinball</h1>
           <p className="brand-sub">Tra cứu thẻ &amp; bi đang gửi của bạn</p>
         </div>
 
         {/* Form card */}
-        <div className="card animate-in animate-in-delay-1">
+        <div className="card glass-surface-strong animate-in animate-in-delay-1">
           <form onSubmit={handleSubmit} noValidate>
             <label className="input-label" htmlFor="phone-input">
               Số điện thoại
             </label>
 
             <div className="input-group">
-              <span className="input-icon" aria-hidden="true">📱</span>
+              <span className="input-icon" aria-hidden="true">
+                <Smartphone className="w-5 h-5" />
+              </span>
               <input
                 id="phone-input"
                 type="tel"
                 inputMode="numeric"
                 pattern="[0-9]*"
-                className="phone-input"
+                className="phone-input glass-surface"
                 placeholder="0XXXXXXXXX"
                 value={phone}
                 onChange={handlePhoneChange}
@@ -211,7 +215,7 @@ export default function HomePage() {
                 </>
               ) : (
                 <>
-                  <span aria-hidden="true">🔍</span>
+                  <Search className="w-4 h-4" aria-hidden="true" />
                   Tra cứu thông tin
                 </>
               )}

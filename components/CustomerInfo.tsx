@@ -1,7 +1,7 @@
 "use client";
 
 import { formatDate } from "@/lib/utils";
-import { Sun, Moon } from "lucide-react";
+import { Sun, Moon, Smartphone, Ticket, CircleDot, ClipboardList } from "lucide-react";
 
 type Record = {
   id: string;
@@ -71,12 +71,12 @@ export default function CustomerInfo({
       <main className="page-wrapper">
         <div className="info-page animate-in">
           {/* Top Controls Container */}
-          <div className="top-controls">
+          <div className="top-controls glass-surface">
             {/* Back button */}
             <button
               id="back-btn"
               type="button"
-              className="back-btn"
+              className="back-btn glass-surface"
               onClick={onBack}
               aria-label="Quay lại trang tra cứu"
             >
@@ -85,7 +85,7 @@ export default function CustomerInfo({
 
             {/* Theme toggle */}
             <button
-              className="theme-toggle"
+              className="theme-toggle glass-surface"
               onClick={onToggleTheme}
               aria-label={theme === "dark" ? "Chuyển sang giao diện sáng" : "Chuyển sang giao diện tối"}
               title={theme === "dark" ? "Light Glass" : "Dark Glass"}
@@ -99,22 +99,29 @@ export default function CustomerInfo({
           </div>
 
           {/* Profile card */}
-          <div className="profile-card animate-in animate-in-delay-1">
-            <div className="profile-avatar" aria-hidden="true">
+          <div className="profile-card glass-surface-strong animate-in animate-in-delay-1">
+            <div className="profile-avatar glass-surface" aria-hidden="true">
               {getInitials(data.fullName)}
             </div>
             <div className="profile-name">{data.fullName}</div>
-            <div className="profile-phone">📱 {data.phone}</div>
+            <div className="profile-phone">
+              <Smartphone className="w-4 h-4 inline-block mr-1 text-slate-400" aria-hidden="true" />
+              {data.phone}
+            </div>
 
             {/* Stats */}
             <div className="stats-row" aria-label="Tổng tài sản đang gửi">
-              <div className="stat-card" aria-label={`${data.totalCards} thẻ đang giữ`}>
-                <div className="stat-icon" aria-hidden="true">🃏</div>
+              <div className="stat-card glass-surface-soft" aria-label={`${data.totalCards} thẻ đang giữ`}>
+                <div className="stat-icon" aria-hidden="true">
+                  <Ticket className="w-6 h-6 mx-auto text-blue-500" />
+                </div>
                 <div className="stat-value">{data.totalCards}</div>
                 <div className="stat-label">THẺ ĐANG GIỮ</div>
               </div>
-              <div className="stat-card" aria-label={`${data.totalBalls} bi đang giữ`}>
-                <div className="stat-icon" aria-hidden="true">🎱</div>
+              <div className="stat-card glass-surface-soft" aria-label={`${data.totalBalls} bi đang giữ`}>
+                <div className="stat-icon" aria-hidden="true">
+                  <CircleDot className="w-6 h-6 mx-auto text-cyan-500" />
+                </div>
                 <div className="stat-value">{data.totalBalls}</div>
                 <div className="stat-label">BI ĐANG GIỮ</div>
               </div>
@@ -124,11 +131,11 @@ export default function CustomerInfo({
           {/* Active records */}
           <div className="animate-in animate-in-delay-2">
             <div className="section-title">
-              <span aria-hidden="true">📋</span>
+              <ClipboardList className="w-4 h-4 inline-block mr-1" aria-hidden="true" />
               BẢN GHI ĐANG GỬI ({activeRecords.length})
             </div>
             {activeRecords.length === 0 ? (
-              <div className="card empty-state">
+              <div className="card empty-state glass-surface-soft">
                 <div className="empty-state-icon" aria-hidden="true">📭</div>
                 <p className="empty-state-text">Không có bản ghi đang gửi.</p>
               </div>
@@ -145,7 +152,7 @@ export default function CustomerInfo({
           {oldRecords.length > 0 && (
             <div className="animate-in animate-in-delay-3" style={{ marginTop: 24 }}>
               <div className="section-title">
-                <span aria-hidden="true">🕘</span>
+                <ClipboardList className="w-4 h-4 inline-block mr-1" aria-hidden="true" />
                 Lịch sử cũ ({oldRecords.length})
               </div>
               <div className="records-list" role="list">
@@ -167,7 +174,7 @@ export default function CustomerInfo({
 
 function RecordCard({ record: r }: { record: Record }) {
   return (
-    <article className="record-card" role="listitem">
+    <article className="record-card glass-surface-soft" role="listitem">
       <div className="record-header">
         <div>
           <div className="record-date">{formatDate(r.depositDate)} — {r.depositTime}</div>
@@ -186,7 +193,8 @@ function RecordCard({ record: r }: { record: Record }) {
               {r.cardAction}
             </span>
             <span className="record-chip chip-card">
-              🃏 {r.cards} thẻ
+              <Ticket className="w-3.5 h-3.5 mr-1" aria-hidden="true" />
+              {r.cards} thẻ
               {r.status === "Đang gửi" && r.remainingCards !== r.cards && (
                 <> → còn {r.remainingCards}</>
               )}
@@ -201,7 +209,8 @@ function RecordCard({ record: r }: { record: Record }) {
               {r.ballAction}
             </span>
             <span className="record-chip chip-ball">
-              🎱 {r.balls} bi
+              <CircleDot className="w-3.5 h-3.5 mr-1" aria-hidden="true" />
+              {r.balls} bi
               {r.status === "Đang gửi" && r.remainingBalls !== r.balls && (
                 <> → còn {r.remainingBalls}</>
               )}
@@ -214,10 +223,16 @@ function RecordCard({ record: r }: { record: Record }) {
         <div className="record-footer">
           Đang giữ:
           {r.cardAction !== "Lấy thẻ" && r.remainingCards > 0 && (
-            <> 🃏 <strong>{r.remainingCards} thẻ</strong></>
+            <>
+              <Ticket className="w-3.5 h-3.5 inline-block mx-1" aria-hidden="true" />
+              <strong>{r.remainingCards} thẻ</strong>
+            </>
           )}
           {r.ballAction !== "Lấy bi" && r.remainingBalls > 0 && (
-            <> 🎱 <strong>{r.remainingBalls} bi</strong></>
+            <>
+              <CircleDot className="w-3.5 h-3.5 inline-block mx-1" aria-hidden="true" />
+              <strong>{r.remainingBalls} bi</strong>
+            </>
           )}
         </div>
       )}
