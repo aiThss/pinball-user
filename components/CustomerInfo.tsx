@@ -145,8 +145,32 @@ export default function CustomerInfo({
           <section className="records-browser animate-in animate-in-delay-2">
             <div className="records-browser-heading">
               <div className="section-title records-browser-title">
-                <ClipboardList className="w-4 h-4" aria-hidden="true" />
+                <ClipboardList className="records-browser-icon" aria-hidden="true" />
                 <span>BẢN GHI</span>
+              </div>
+
+              <div className="record-tabs-inline glass-surface" role="tablist" aria-label="Loại bản ghi">
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={recordView === "active"}
+                  className={`record-tab record-tab-active${recordView === "active" ? " is-selected" : ""}`}
+                  onClick={() => setRecordView("active")}
+                >
+                  <span>Đang gửi</span>
+                  <span className="record-tab-count">{activeRecords.length}</span>
+                </button>
+
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={recordView === "received"}
+                  className={`record-tab record-tab-received${recordView === "received" ? " is-selected" : ""}`}
+                  onClick={() => setRecordView("received")}
+                >
+                  <span>Đã nhận</span>
+                  <span className="record-tab-count">{receivedRecords.length}</span>
+                </button>
               </div>
 
               <button
@@ -159,30 +183,6 @@ export default function CustomerInfo({
                 title="Làm mới bản ghi"
               >
                 <RefreshCw aria-hidden="true" />
-              </button>
-            </div>
-
-            <div className="record-tabs glass-surface" role="tablist" aria-label="Loại bản ghi">
-              <button
-                type="button"
-                role="tab"
-                aria-selected={recordView === "active"}
-                className={`record-tab record-tab-active${recordView === "active" ? " is-selected" : ""}`}
-                onClick={() => setRecordView("active")}
-              >
-                <span>Đang gửi</span>
-                <strong>{activeRecords.length}</strong>
-              </button>
-
-              <button
-                type="button"
-                role="tab"
-                aria-selected={recordView === "received"}
-                className={`record-tab record-tab-received${recordView === "received" ? " is-selected" : ""}`}
-                onClick={() => setRecordView("received")}
-              >
-                <span>Đã nhận</span>
-                <strong>{receivedRecords.length}</strong>
               </button>
             </div>
 
