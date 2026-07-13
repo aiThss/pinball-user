@@ -130,6 +130,8 @@ body[data-pinball-user-theme] .active-records-frame {
 }
 
 body[data-pinball-user-theme] .active-records-frame.is-scrollable {
+  width: calc(100% - 20px);
+  margin-inline: auto;
   height: clamp(430px, 68dvh, 580px);
   overflow-y: auto;
   overflow-x: hidden;
@@ -223,6 +225,7 @@ body[data-pinball-user-theme] .footer-email:focus-visible {
   }
 
   body[data-pinball-user-theme] .active-records-frame.is-scrollable {
+    width: calc(100% - 16px);
     height: clamp(420px, 66dvh, 540px);
   }
 }
