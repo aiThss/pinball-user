@@ -1,7 +1,15 @@
 "use client";
 
 import { formatDate } from "@/lib/utils";
-import { Sun, Moon, Smartphone, Ticket, CircleDot, ClipboardList } from "lucide-react";
+import {
+  Sun,
+  Moon,
+  Smartphone,
+  Ticket,
+  CircleDot,
+  ClipboardList,
+  RefreshCw,
+} from "lucide-react";
 
 type Record = {
   id: string;
@@ -46,11 +54,17 @@ function getInitials(name: string) {
 export default function CustomerInfo({
   data,
   onBack,
+  onRefresh,
+  refreshing,
+  refreshError,
   theme,
   onToggleTheme,
 }: {
   data: CustomerData;
   onBack: () => void;
+  onRefresh: () => void;
+  refreshing: boolean;
+  refreshError: string;
   theme: "light" | "dark";
   onToggleTheme: () => void;
 }) {
@@ -59,7 +73,6 @@ export default function CustomerInfo({
 
   return (
     <>
-      {/* Background orbs */}
       <div className="bg-decoration" aria-hidden="true">
         <div className="bg-orb bg-orb-1" />
         <div className="bg-orb bg-orb-2" />
@@ -67,9 +80,7 @@ export default function CustomerInfo({
 
       <main className="page-wrapper">
         <div className="info-page animate-in">
-          {/* Top Controls Container */}
           <div className="top-controls glass-surface">
-            {/* Back button */}
             <button
               id="back-btn"
               type="button"
@@ -80,22 +91,41 @@ export default function CustomerInfo({
               ← Tra cứu số khác
             </button>
 
-            {/* Theme toggle */}
-            <button
-              className="theme-toggle glass-surface"
-              onClick={onToggleTheme}
-              aria-label={theme === "dark" ? "Chuyển sang giao diện sáng" : "Chuyển sang giao diện tối"}
-              title={theme === "dark" ? "Light Glass" : "Dark Glass"}
-            >
-              {theme === "dark" ? (
-                <Sun className="w-[18px] h-[18px]" aria-hidden="true" style={{ display: "block" }} />
-              ) : (
-                <Moon className="w-[18px] h-[18px]" aria-hidden="true" style={{ display: "block" }} />
-              )}
-            </button>
+            <div className="top-actions">
+              <button
+                type="button"
+                className={`refresh-btn glass-surface${refreshing ? " is-refreshing" : ""}`}
+                onClick={onRefresh}
+                disabled={refreshing}
+                aria-label={refreshing ? "Đang làm mới dữ liệu" : "Làm mới dữ liệu"}
+                aria-busy={refreshing}
+                title="Làm mới bản ghi"
+              >
+                <RefreshCw className="w-[18px] h-[18px]" aria-hidden="true" />
+              </button>
+
+              <button
+                type="button"
+                className="theme-toggle glass-surface"
+                onClick={onToggleTheme}
+                aria-label={theme === "dark" ? "Chuyển sang giao diện sáng" : "Chuyển sang giao diện tối"}
+                title={theme === "dark" ? "Light Glass" : "Dark Glass"}
+              >
+                {theme === "dark" ? (
+                  <Sun className="w-[18px] h-[18px]" aria-hidden="true" style={{ display: "block" }} />
+                ) : (
+                  <Moon className="w-[18px] h-[18px]" aria-hidden="true" style={{ display: "block" }} />
+                )}
+              </button>
+            </div>
           </div>
 
-          {/* Profile card */}
+          {refreshError && (
+            <div className="refresh-error" role="alert">
+              {refreshError}
+            </div>
+          )}
+
           <div className="profile-card glass-surface-strong animate-in animate-in-delay-1">
             <div className="profile-avatar glass-surface" aria-hidden="true">
               {getInitials(data.fullName)}
@@ -106,7 +136,6 @@ export default function CustomerInfo({
               {data.phone}
             </div>
 
-            {/* Stats */}
             <div className="stats-row" aria-label="Tổng tài sản đang gửi">
               <div className="stat-card glass-surface-soft" aria-label={`${data.totalCards} thẻ đang giữ`}>
                 <div className="stat-icon" aria-hidden="true">
@@ -125,7 +154,6 @@ export default function CustomerInfo({
             </div>
           </div>
 
-          {/* Active records */}
           <div className="animate-in animate-in-delay-2">
             <div className="section-title">
               <ClipboardList className="w-4 h-4 inline-block mr-1" aria-hidden="true" />
@@ -145,7 +173,6 @@ export default function CustomerInfo({
             )}
           </div>
 
-          {/* Old records */}
           {oldRecords.length > 0 && (
             <div className="animate-in animate-in-delay-3" style={{ marginTop: 24 }}>
               <div className="section-title">
@@ -186,16 +213,15 @@ function RecordCard({ record: r }: { record: Record }) {
       </div>
 
       <div className="record-body">
-        {/* Card action always occupies its own row */}
         {r.cards > 0 && (
-          <div className="flex w-full flex-wrap items-center gap-2">
+          <div className="record-action-row">
             {cardAction && (
               <span className="record-chip chip-action">
                 {cardAction}
               </span>
             )}
-            <span className="record-chip chip-card">
-              <Ticket className="w-3.5 h-3.5 mr-1" aria-hidden="true" />
+            <span className={`record-chip chip-card${cardAction ? "" : " record-chip-full"}`}>
+              <Ticket aria-hidden="true" />
               {r.cards} thẻ
               {r.status === "Đang gửi" && r.remainingCards !== r.cards && (
                 <> → còn {r.remainingCards}</>
@@ -204,16 +230,15 @@ function RecordCard({ record: r }: { record: Record }) {
           </div>
         )}
 
-        {/* Ball action starts on a new row for a cleaner mobile layout */}
         {r.balls > 0 && (
-          <div className="flex w-full flex-wrap items-center gap-2">
+          <div className="record-action-row">
             {ballAction && (
               <span className="record-chip chip-action">
                 {ballAction}
               </span>
             )}
-            <span className="record-chip chip-ball">
-              <CircleDot className="w-3.5 h-3.5 mr-1" aria-hidden="true" />
+            <span className={`record-chip chip-ball${ballAction ? "" : " record-chip-full"}`}>
+              <CircleDot aria-hidden="true" />
               {r.balls} bi
               {r.status === "Đang gửi" && r.remainingBalls !== r.balls && (
                 <> → còn {r.remainingBalls}</>
