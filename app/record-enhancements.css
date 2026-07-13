@@ -130,20 +130,37 @@ body[data-pinball-user-theme] .active-records-frame {
 }
 
 body[data-pinball-user-theme] .active-records-frame.is-scrollable {
-  width: calc(100% - 20px);
+  width: calc(100% - 36px);
   margin-inline: auto;
-  height: clamp(430px, 68dvh, 580px);
+
+  /* Fixed physical height: do not resize when Chrome's address bar expands/collapses. */
+  height: 540px;
+  min-height: 540px;
+  max-height: 540px;
+  block-size: 540px;
+  min-block-size: 540px;
+  max-block-size: 540px;
+
+  position: relative;
   overflow-y: auto;
   overflow-x: hidden;
-  overscroll-behavior-y: contain;
+  overscroll-behavior-y: none;
   -webkit-overflow-scrolling: touch;
   touch-action: pan-y;
   scrollbar-width: thin;
+  scrollbar-gutter: stable;
   scrollbar-color: var(--user-glass-border-2) transparent;
   padding: 3px 4px 18px 2px;
   border: 1px solid var(--user-glass-border-2);
   background: var(--user-glass-soft);
   box-shadow: inset 0 1px 0 var(--user-glass-highlight);
+
+  /* Isolate layout/painting so nested scrolling cannot stretch the page box. */
+  contain: layout paint size;
+}
+
+body[data-pinball-user-theme] .active-records-frame.is-scrollable .records-list {
+  min-height: 100%;
 }
 
 body[data-pinball-user-theme] .active-records-frame.is-scrollable::-webkit-scrollbar {
@@ -225,8 +242,13 @@ body[data-pinball-user-theme] .footer-email:focus-visible {
   }
 
   body[data-pinball-user-theme] .active-records-frame.is-scrollable {
-    width: calc(100% - 16px);
-    height: clamp(420px, 66dvh, 540px);
+    width: calc(100% - 28px);
+    height: 500px;
+    min-height: 500px;
+    max-height: 500px;
+    block-size: 500px;
+    min-block-size: 500px;
+    max-block-size: 500px;
   }
 }
 
