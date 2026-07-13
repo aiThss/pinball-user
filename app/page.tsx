@@ -1,6 +1,7 @@
 "use client";
 
 import "./globals.css";
+import "./record-enhancements.css";
 import { useState, useEffect, useCallback } from "react";
 import { Sun, Moon, Smartphone, Search, CircleDot } from "lucide-react";
 import CustomerInfo from "@/components/CustomerInfo";
