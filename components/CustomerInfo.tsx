@@ -3,19 +3,19 @@
 import { useEffect, useState } from "react";
 import { formatDate } from "@/lib/utils";
 import {
-  Sun,
-  Moon,
-  Smartphone,
-  Ticket,
-  CircleDot,
-  ClipboardList,
-  RefreshCw,
   ChevronLeft,
   ChevronRight,
+  CircleDot,
+  ClipboardList,
+  Moon,
+  RefreshCw,
+  Smartphone,
+  Sun,
+  Ticket,
 } from "lucide-react";
 import SiteFooter from "@/components/SiteFooter";
 
-type Record = {
+type CustomerRecord = {
   id: string;
   depositDate: string;
   depositTime: string;
@@ -38,10 +38,11 @@ type CustomerData = {
   fullName: string;
   totalCards: number;
   totalBalls: number;
-  records: Record[];
+  records: CustomerRecord[];
 };
 
 type RecordView = "active" | "received";
+type RecordPages = { active: number; received: number };
 type PageItem = number | "ellipsis-left" | "ellipsis-right";
 
 const RECORDS_PER_PAGE = 6;
@@ -107,10 +108,7 @@ export default function CustomerInfo({
   onToggleTheme: () => void;
 }) {
   const [recordView, setRecordView] = useState<RecordView>("active");
-  const [recordPages, setRecordPages] = useState<Record<RecordView, number>>({
-    active: 1,
-    received: 1,
-  });
+  const [recordPages, setRecordPages] = useState<RecordPages>({ active: 1, received: 1 });
 
   const activeRecords = data.records.filter((record) => record.status === "Đang gửi");
   const receivedRecords = data.records.filter((record) => record.status !== "Đang gửi");
@@ -260,9 +258,7 @@ export default function CustomerInfo({
                 <div className="empty-state records-browser-empty">
                   <div className="empty-state-icon" aria-hidden="true">📭</div>
                   <p className="empty-state-text">
-                    {recordView === "active"
-                      ? "Không có bản ghi đang gửi."
-                      : "Không có bản ghi đã nhận."}
+                    {recordView === "active" ? "Không có bản ghi đang gửi." : "Không có bản ghi đã nhận."}
                   </p>
                 </div>
               ) : (
@@ -324,7 +320,7 @@ export default function CustomerInfo({
   );
 }
 
-function RecordCard({ record: r }: { record: Record }) {
+function RecordCard({ record: r }: { record: CustomerRecord }) {
   const cardAction = r.cardAction?.trim();
   const ballAction = r.ballAction?.trim();
 
@@ -335,9 +331,7 @@ function RecordCard({ record: r }: { record: Record }) {
           <div className="record-date">{formatDate(r.depositDate)} — {r.depositTime}</div>
           <div className="record-time">Nhân viên: {r.createdByName}</div>
         </div>
-        <span className={`status-badge ${getStatusClass(r.status)}`}>
-          {r.status}
-        </span>
+        <span className={`status-badge ${getStatusClass(r.status)}`}>{r.status}</span>
       </div>
 
       <div className="record-body">
@@ -351,9 +345,7 @@ function RecordCard({ record: r }: { record: Record }) {
             <span className={`record-chip chip-card${cardAction ? "" : " record-chip-full"}`}>
               <Ticket aria-hidden="true" />
               {r.cards} thẻ
-              {r.status === "Đang gửi" && r.remainingCards !== r.cards && (
-                <> → còn {r.remainingCards}</>
-              )}
+              {r.status === "Đang gửi" && r.remainingCards !== r.cards && <> → còn {r.remainingCards}</>}
             </span>
           </div>
         )}
@@ -368,9 +360,7 @@ function RecordCard({ record: r }: { record: Record }) {
             <span className={`record-chip chip-ball${ballAction ? "" : " record-chip-full"}`}>
               <CircleDot aria-hidden="true" />
               {r.balls} bi
-              {r.status === "Đang gửi" && r.remainingBalls !== r.balls && (
-                <> → còn {r.remainingBalls}</>
-              )}
+              {r.status === "Đang gửi" && r.remainingBalls !== r.balls && <> → còn {r.remainingBalls}</>}
             </span>
           </div>
         )}
