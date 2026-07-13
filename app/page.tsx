@@ -1,66 +1,157 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client";
 
-export default function Home() {
+import "./globals.css";
+import { useState } from "react";
+import CustomerInfo from "@/components/CustomerInfo";
+
+type CustomerData = {
+  phone: string;
+  fullName: string;
+  totalCards: number;
+  totalBalls: number;
+  records: Array<{
+    id: string;
+    depositDate: string;
+    depositTime: string;
+    cardAction: string;
+    ballAction: string;
+    cards: number;
+    balls: number;
+    remainingCards: number;
+    remainingBalls: number;
+    totalText: string;
+    status: string;
+    createdByName: string;
+    createdAt: string;
+  }>;
+};
+
+export default function HomePage() {
+  const [phone, setPhone] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [data, setData] = useState<CustomerData | null>(null);
+
+  // Only allow digits, max 10
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value.replace(/\D/g, "").slice(0, 10);
+    setPhone(val);
+    setError("");
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (phone.length < 9) {
+      setError("Vui lòng nhập đủ số điện thoại (ít nhất 9 số).");
+      return;
+    }
+    setLoading(true);
+    setError("");
+    try {
+      const res = await fetch(`/api/customer?phone=${encodeURIComponent(phone)}`);
+      const json = await res.json();
+      if (!res.ok) {
+        setError(json.error ?? "Không tìm thấy thông tin.");
+        setData(null);
+      } else {
+        setData(json);
+      }
+    } catch {
+      setError("Không thể kết nối. Vui lòng thử lại.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (data) {
+    return <CustomerInfo data={data} onBack={() => setData(null)} />;
+  }
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <>
+      {/* Background orbs */}
+      <div className="bg-decoration" aria-hidden="true">
+        <div className="bg-orb bg-orb-1" />
+        <div className="bg-orb bg-orb-2" />
+        <div className="bg-orb bg-orb-3" />
+      </div>
+
+      <main className="page-wrapper">
+        {/* Brand */}
+        <div className="brand animate-in">
+          <div className="brand-icon" aria-hidden="true">🎱</div>
+          <h1 className="brand-title">Ký Gửi Pinball</h1>
+          <p className="brand-sub">Tra cứu thẻ &amp; bi đang gửi của bạn</p>
         </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        {/* Form card */}
+        <div className="card animate-in animate-in-delay-1">
+          <form onSubmit={handleSubmit} noValidate>
+            <label className="input-label" htmlFor="phone-input">
+              Số điện thoại
+            </label>
+
+            <div className="input-group">
+              <span className="input-icon" aria-hidden="true">📱</span>
+              <input
+                id="phone-input"
+                type="tel"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                className="phone-input"
+                placeholder="0XXXXXXXXX"
+                value={phone}
+                onChange={handlePhoneChange}
+                autoComplete="tel"
+                autoFocus
+                maxLength={10}
+                aria-label="Số điện thoại tra cứu"
+                aria-describedby={error ? "phone-error" : undefined}
+              />
+            </div>
+
+            {/* Digit indicator dots */}
+            <div className="digit-indicator" aria-hidden="true">
+              {Array.from({ length: 10 }).map((_, i) => (
+                <div
+                  key={i}
+                  className={`dot${i < phone.length ? " filled" : ""}`}
+                />
+              ))}
+            </div>
+
+            {error && (
+              <div className="error-msg" id="phone-error" role="alert">
+                <span aria-hidden="true">⚠️</span>
+                {error}
+              </div>
+            )}
+
+            <button
+              id="lookup-btn"
+              type="submit"
+              className="btn-primary"
+              disabled={loading || phone.length < 9}
+            >
+              {loading ? (
+                <>
+                  <span className="spinner" aria-hidden="true" />
+                  Đang tra cứu…
+                </>
+              ) : (
+                <>
+                  <span aria-hidden="true">🔍</span>
+                  Tra cứu thông tin
+                </>
+              )}
+            </button>
+          </form>
         </div>
+
+        <footer className="footer animate-in animate-in-delay-2">
+          Chỉ xem, không chỉnh sửa &nbsp;·&nbsp; Baby Ress Games
+        </footer>
       </main>
-    </div>
+    </>
   );
 }
