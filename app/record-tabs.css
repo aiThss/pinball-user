@@ -125,6 +125,34 @@ body[data-pinball-user-theme] .record-tab-received.is-selected {
     0 5px 18px rgba(234, 88, 12, 0.12);
 }
 
+body[data-pinball-user-theme="light"] .chip-action-send {
+  color: #6d28d9;
+  border-color: rgba(124, 58, 237, 0.28);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(167, 139, 250, 0.20),
+      rgba(99, 102, 241, 0.10)
+    );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.62),
+    0 6px 18px rgba(124, 58, 237, 0.08);
+}
+
+body[data-pinball-user-theme="dark"] .chip-action-send {
+  color: #ddd6fe;
+  border-color: rgba(196, 181, 253, 0.32);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(139, 92, 246, 0.22),
+      rgba(99, 102, 241, 0.14)
+    );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 7px 20px rgba(76, 29, 149, 0.18);
+}
+
 body[data-pinball-user-theme] .records-browser-heading .section-refresh-btn {
   grid-column: 2;
   grid-row: 1;
