@@ -13,6 +13,8 @@ type Record = {
   balls: number;
   remainingCards: number;
   remainingBalls: number;
+  totalCardsAtRecord: number;
+  totalBallsAtRecord: number;
   totalText: string;
   status: string;
   createdByName: string;
@@ -40,8 +42,6 @@ function getInitials(name: string) {
   if (parts.length === 1) return name.slice(0, 2).toUpperCase();
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 }
-
-
 
 export default function CustomerInfo({
   data,
@@ -186,9 +186,9 @@ function RecordCard({ record: r }: { record: Record }) {
       </div>
 
       <div className="record-body">
-        {/* Card action */}
+        {/* Card action always occupies its own row */}
         {r.cards > 0 && (
-          <>
+          <div className="flex w-full flex-wrap items-center gap-2">
             {cardAction && (
               <span className="record-chip chip-action">
                 {cardAction}
@@ -201,12 +201,12 @@ function RecordCard({ record: r }: { record: Record }) {
                 <> → còn {r.remainingCards}</>
               )}
             </span>
-          </>
+          </div>
         )}
 
-        {/* Ball action */}
+        {/* Ball action starts on a new row for a cleaner mobile layout */}
         {r.balls > 0 && (
-          <>
+          <div className="flex w-full flex-wrap items-center gap-2">
             {ballAction && (
               <span className="record-chip chip-action">
                 {ballAction}
@@ -219,28 +219,24 @@ function RecordCard({ record: r }: { record: Record }) {
                 <> → còn {r.remainingBalls}</>
               )}
             </span>
-          </>
+          </div>
         )}
       </div>
 
-      {r.status === "Đang gửi" && (r.remainingCards > 0 || r.remainingBalls > 0) && (
+      {r.status === "Đang gửi" && (
         <div className="record-footer">
           <span className="record-footer-label">
-            Đang giữ:
+            Tổng sau bản ghi:
           </span>
           <div className="record-footer-values">
-            {r.cardAction !== "Lấy thẻ" && r.remainingCards > 0 && (
-              <span className="holding-item holding-item-card">
-                <Ticket aria-hidden="true" />
-                <strong>{r.remainingCards} thẻ</strong>
-              </span>
-            )}
-            {r.ballAction !== "Lấy bi" && r.remainingBalls > 0 && (
-              <span className="holding-item holding-item-ball">
-                <CircleDot aria-hidden="true" />
-                <strong>{r.remainingBalls} bi</strong>
-              </span>
-            )}
+            <span className="holding-item holding-item-card">
+              <Ticket aria-hidden="true" />
+              <strong>{r.totalCardsAtRecord} thẻ</strong>
+            </span>
+            <span className="holding-item holding-item-ball">
+              <CircleDot aria-hidden="true" />
+              <strong>{r.totalBallsAtRecord} bi</strong>
+            </span>
           </div>
         </div>
       )}
