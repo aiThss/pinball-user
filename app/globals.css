@@ -11,11 +11,13 @@
   padding: 0;
 }
 
-html, body {
-  height: 100%;
+html {
+  min-height: 100%;
 }
 
 body {
+  min-height: 100dvh;
+  height: auto;
   font-family: "Inter", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   line-height: 1.6;
@@ -330,60 +332,55 @@ body {
   color: var(--user-text);
 }
 
-/* Target body directly since data attr is on body (Task 3, 4 & 5) */
+/* Keep the root canvas in sync with the selected theme. */
+html[data-pinball-user-theme="light"],
+body[data-pinball-user-theme="light"] {
+  background-color: #eef0f4;
+  color-scheme: light;
+}
+
+html[data-pinball-user-theme="dark"],
+body[data-pinball-user-theme="dark"] {
+  background-color: #07080a;
+  color-scheme: dark;
+}
+
+/* Body supplies only the long-document fallback color. */
 body[data-pinball-user-theme="light"] {
   min-height: 100dvh;
-  background:
-    radial-gradient(
-      circle at -8% 2%,
-      rgba(90, 150, 255, 0.14),
-      transparent 34%
-    ),
-    radial-gradient(
-      circle at 108% 10%,
-      rgba(175, 130, 230, 0.08),
-      transparent 32%
-    ),
-    linear-gradient(
-      180deg,
-      #fbfbfc 0%,
-      #f4f5f7 52%,
-      #eef0f4 100%
-    );
-  background-repeat: no-repeat;
+  height: auto;
+  background-color: #eef0f4;
   color: var(--user-text);
 }
 
 body[data-pinball-user-theme="dark"] {
   min-height: 100dvh;
-  background:
-    radial-gradient(
-      circle at -8% 2%,
-      rgba(55, 100, 220, 0.10),
-      transparent 34%
-    ),
-    radial-gradient(
-      circle at 108% 10%,
-      rgba(120, 70, 190, 0.06),
-      transparent 32%
-    ),
-    linear-gradient(
-      180deg,
-      #07080a 0%,
-      #0d0e11 52%,
-      #121317 100%
-    );
-  background-repeat: no-repeat;
+  height: auto;
+  background-color: #07080a;
   color: var(--user-text);
 }
 
-/* ========== Background decoration (Task 6) ========== */
+/* ========== Fixed viewport background decoration ========== */
 body[data-pinball-user-theme] .bg-decoration {
   position: fixed;
   inset: 0;
+  width: 100%;
+  height: 100dvh;
   pointer-events: none;
   z-index: 0;
   overflow: hidden;
+}
+body[data-pinball-user-theme="light"] .bg-decoration {
+  background:
+    radial-gradient(circle at -8% 2%, rgba(90, 150, 255, 0.14), transparent 34%),
+    radial-gradient(circle at 108% 10%, rgba(175, 130, 230, 0.08), transparent 32%),
+    linear-gradient(180deg, #fbfbfc 0%, #f4f5f7 52%, #eef0f4 100%);
+}
+body[data-pinball-user-theme="dark"] .bg-decoration {
+  background:
+    radial-gradient(circle at -8% 2%, rgba(55, 100, 220, 0.10), transparent 34%),
+    radial-gradient(circle at 108% 10%, rgba(120, 70, 190, 0.06), transparent 32%),
+    linear-gradient(180deg, #07080a 0%, #0d0e11 52%, #121317 100%);
 }
 body[data-pinball-user-theme] .bg-orb {
   position: absolute;

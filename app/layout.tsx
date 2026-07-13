@@ -38,7 +38,7 @@ export default function RootLayout({
         {/* Anti-flash: apply saved theme before first paint */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('pinball-user-theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.body&&(document.body.dataset.pinballUserTheme=t);var m=document.querySelectorAll('meta[name="theme-color"]');for(var i=0;i<m.length;i++){m[i].setAttribute('content',t==='dark'?'#000000':'#f5f5f7')}}catch(e){}})();`,
+            __html: `(function(){try{var t=localStorage.getItem('pinball-user-theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.documentElement.dataset.pinballUserTheme=t;if(document.body){document.body.dataset.pinballUserTheme=t}var m=document.querySelectorAll('meta[name="theme-color"]');for(var i=0;i<m.length;i++){m[i].setAttribute('content',t==='dark'?'#000000':'#f5f5f7')}}catch(e){document.documentElement.dataset.pinballUserTheme='dark';if(document.body){document.body.dataset.pinballUserTheme='dark'}}})();`,
           }}
         />
       </head>
@@ -48,7 +48,7 @@ export default function RootLayout({
         {/* Apply theme attribute as early as possible via inline script */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('pinball-user-theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.body.dataset.pinballUserTheme=t;var m=document.querySelectorAll('meta[name="theme-color"]');for(var i=0;i<m.length;i++){m[i].setAttribute('content',t==='dark'?'#000000':'#f5f5f7')}}catch(e){document.body.dataset.pinballUserTheme='dark'}})();`,
+            __html: `(function(){try{var t=localStorage.getItem('pinball-user-theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.documentElement.dataset.pinballUserTheme=t;document.body.dataset.pinballUserTheme=t;var m=document.querySelectorAll('meta[name="theme-color"]');for(var i=0;i<m.length;i++){m[i].setAttribute('content',t==='dark'?'#000000':'#f5f5f7')}}catch(e){document.documentElement.dataset.pinballUserTheme='dark';document.body.dataset.pinballUserTheme='dark'}})();`,
           }}
         />
         {children}

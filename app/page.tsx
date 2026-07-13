@@ -29,6 +29,11 @@ type CustomerData = {
 
 type Theme = "light" | "dark";
 
+function applyThemeToDocument(theme: Theme) {
+  document.documentElement.dataset.pinballUserTheme = theme;
+  document.body.dataset.pinballUserTheme = theme;
+}
+
 function useTheme(): [Theme, () => void] {
   const [theme, setTheme] = useState<Theme>("dark");
 
@@ -41,7 +46,7 @@ function useTheme(): [Theme, () => void] {
     } else {
       nextTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
     }
-    document.body.dataset.pinballUserTheme = nextTheme;
+    applyThemeToDocument(nextTheme);
 
     // Sync theme-color meta tag
     const meta = document.querySelectorAll('meta[name="theme-color"]');
@@ -61,7 +66,7 @@ function useTheme(): [Theme, () => void] {
     setTheme((prev) => {
       const next: Theme = prev === "dark" ? "light" : "dark";
       localStorage.setItem("pinball-user-theme", next);
-      document.body.dataset.pinballUserTheme = next;
+      applyThemeToDocument(next);
 
       // Sync theme-color meta tag
       const meta = document.querySelectorAll('meta[name="theme-color"]');
