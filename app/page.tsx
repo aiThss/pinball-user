@@ -260,8 +260,11 @@ export default function HomePage() {
           </form>
         </div>
 
-        <footer className="footer animate-in animate-in-delay-2">
-          Chỉ xem, không chỉnh sửa &nbsp;·&nbsp; Baby Ress Games
+        <footer className="footer site-footer animate-in animate-in-delay-2">
+          <div className="footer-brand">© aiThs</div>
+          <a className="footer-email" href="mailto:danhthai4560@gmail.com">
+            danhthai4560@gmail.com
+          </a>
         </footer>
       </main>
     </>
