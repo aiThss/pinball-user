@@ -1,6 +1,7 @@
 "use client";
 
 import { formatDate } from "@/lib/utils";
+import { Sun, Moon } from "lucide-react";
 
 type Record = {
   id: string;
@@ -74,7 +75,11 @@ export default function CustomerInfo({
         aria-label={theme === "dark" ? "Chuyển sang giao diện sáng" : "Chuyển sang giao diện tối"}
         title={theme === "dark" ? "Light Glass" : "Dark Glass"}
       >
-        {theme === "dark" ? "☀️" : "🌙"}
+        {theme === "dark" ? (
+          <Sun className="w-[18px] h-[18px]" aria-hidden="true" style={{ display: "block" }} />
+        ) : (
+          <Moon className="w-[18px] h-[18px]" aria-hidden="true" style={{ display: "block" }} />
+        )}
       </button>
 
       <main className="page-wrapper">

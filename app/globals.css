@@ -72,21 +72,21 @@ body {
   --user-accent-ok:          #16a34a;
 
   /* Button */
-  --user-btn-bg:             linear-gradient(135deg, #007aff 0%, #0056b3 100%);
-  --user-btn-shadow:         0 6px 24px rgba(0, 122, 255, 0.28);
-  --user-btn-shadow-hover:   0 10px 32px rgba(0, 122, 255, 0.40);
+  --user-btn-bg:             #007aff;
+  --user-btn-shadow:         0 8px 24px rgba(0, 122, 255, 0.22);
+  --user-btn-shadow-hover:   0 10px 30px rgba(0, 122, 255, 0.30);
 
   /* Avatar */
   --user-avatar-bg:          linear-gradient(135deg, #007aff, #0891b2);
   --user-avatar-shadow:      0 4px 16px rgba(0, 122, 255, 0.25);
 
   /* Stat cards */
-  --user-stat-card-bg:       rgba(255, 255, 255, 0.45);
-  --user-stat-1-border:      rgba(0, 122, 255, 0.20);
-  --user-stat-1-bg:          rgba(0, 122, 255, 0.05);
+  --user-stat-card-bg:       rgba(255, 255, 255, 0.42);
+  --user-stat-1-border:      rgba(60, 60, 67, 0.12);
+  --user-stat-1-bg:          rgba(255, 255, 255, 0.20);
   --user-stat-1-value:       #007aff;
-  --user-stat-2-border:      rgba(8, 145, 178, 0.20);
-  --user-stat-2-bg:          rgba(8, 145, 178, 0.05);
+  --user-stat-2-border:      rgba(60, 60, 67, 0.12);
+  --user-stat-2-bg:          rgba(255, 255, 255, 0.20);
   --user-stat-2-value:       #0891b2;
 
   /* Chips */
@@ -123,7 +123,7 @@ body {
   --user-transition:         200ms cubic-bezier(0.4, 0, 0.2, 1);
 
   /* Brand gradient text */
-  --user-brand-grad:         linear-gradient(90deg, #1d1d1f 60%, #007aff 100%);
+  --user-brand-grad:         linear-gradient(90deg, #1d1d1f, #48484a);
 
   /* Dot indicator */
   --user-dot-empty:          rgba(60, 60, 67, 0.15);
@@ -198,21 +198,21 @@ body {
   --user-accent-ok:          #4ade80;
 
   /* Button */
-  --user-btn-bg:             linear-gradient(135deg, #007aff 0%, #0a60ff 100%);
-  --user-btn-shadow:         0 6px 24px rgba(0, 122, 255, 0.30);
-  --user-btn-shadow-hover:   0 10px 32px rgba(0, 122, 255, 0.42);
+  --user-btn-bg:             #007aff;
+  --user-btn-shadow:         0 8px 24px rgba(0, 122, 255, 0.22);
+  --user-btn-shadow-hover:   0 10px 30px rgba(0, 122, 255, 0.30);
 
   /* Avatar */
   --user-avatar-bg:          linear-gradient(135deg, #007aff, #64d2ff);
   --user-avatar-shadow:      0 4px 18px rgba(0, 122, 255, 0.28);
 
   /* Stat cards */
-  --user-stat-card-bg:       rgba(255, 255, 255, 0.04);
-  --user-stat-1-border:      rgba(0, 122, 255, 0.22);
-  --user-stat-1-bg:          rgba(0, 122, 255, 0.07);
-  --user-stat-1-value:       #60a5fa;
-  --user-stat-2-border:      rgba(100, 210, 255, 0.22);
-  --user-stat-2-bg:          rgba(100, 210, 255, 0.07);
+  --user-stat-card-bg:       rgba(58, 58, 60, 0.32);
+  --user-stat-1-border:      rgba(255, 255, 255, 0.07);
+  --user-stat-1-bg:          rgba(255, 255, 255, 0.025);
+  --user-stat-1-value:       #007aff;
+  --user-stat-2-border:      rgba(255, 255, 255, 0.07);
+  --user-stat-2-bg:          rgba(255, 255, 255, 0.025);
   --user-stat-2-value:       #64d2ff;
 
   /* Chips */
@@ -249,7 +249,7 @@ body {
   --user-transition:         200ms cubic-bezier(0.4, 0, 0.2, 1);
 
   /* Brand gradient text */
-  --user-brand-grad:         linear-gradient(90deg, #f5f5f7 60%, #64d2ff 100%);
+  --user-brand-grad:         linear-gradient(90deg, #ffffff, #c7c7cc);
 
   /* Dot indicator */
   --user-dot-empty:          rgba(255, 255, 255, 0.12);
@@ -306,17 +306,17 @@ body[data-pinball-user-theme] .bg-orb {
   opacity: 0.28;
 }
 body[data-pinball-user-theme] .bg-orb-1 {
-  width: 520px; height: 520px;
+  width: 380px; height: 380px;
   background: radial-gradient(circle, var(--user-orb-1), transparent 68%);
-  top: -180px; left: -180px;
+  top: -130px; left: -130px;
 }
 body[data-pinball-user-theme] .bg-orb-2 {
-  width: 420px; height: 420px;
+  width: 300px; height: 300px;
   background: radial-gradient(circle, var(--user-orb-2), transparent 68%);
-  bottom: -120px; right: -120px;
+  bottom: -90px; right: -90px;
 }
 body[data-pinball-user-theme] .bg-orb-3 {
-  width: 320px; height: 320px;
+  width: 240px; height: 240px;
   background: radial-gradient(circle, var(--user-orb-3), transparent 68%);
   top: 45%; left: 55%;
 }

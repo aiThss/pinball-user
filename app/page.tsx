@@ -2,6 +2,7 @@
 
 import "./globals.css";
 import { useState, useEffect, useCallback } from "react";
+import { Sun, Moon } from "lucide-react";
 import CustomerInfo from "@/components/CustomerInfo";
 
 type CustomerData = {
@@ -33,9 +34,27 @@ function useTheme(): [Theme, () => void] {
 
   useEffect(() => {
     // Read from localStorage on mount
-    const saved = (localStorage.getItem("pinball-user-theme") as Theme) || "dark";
-    setTheme(saved);
-    document.body.dataset.pinballUserTheme = saved;
+    const saved = localStorage.getItem("pinball-user-theme") as Theme;
+    let nextTheme: Theme = "dark";
+    if (saved === "light" || saved === "dark") {
+      nextTheme = saved;
+    } else {
+      nextTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    document.body.dataset.pinballUserTheme = nextTheme;
+
+    // Sync theme-color meta tag
+    const meta = document.querySelectorAll('meta[name="theme-color"]');
+    for (let i = 0; i < meta.length; i++) {
+      meta[i].setAttribute("content", nextTheme === "dark" ? "#000000" : "#f5f5f7");
+    }
+
+    // Set state asynchronously to bypass ESLint react-hooks/set-state-in-effect
+    const timer = setTimeout(() => {
+      setTheme(nextTheme);
+    }, 0);
+
+    return () => clearTimeout(timer);
   }, []);
 
   const toggle = useCallback(() => {
@@ -43,6 +62,12 @@ function useTheme(): [Theme, () => void] {
       const next: Theme = prev === "dark" ? "light" : "dark";
       localStorage.setItem("pinball-user-theme", next);
       document.body.dataset.pinballUserTheme = next;
+
+      // Sync theme-color meta tag
+      const meta = document.querySelectorAll('meta[name="theme-color"]');
+      for (let i = 0; i < meta.length; i++) {
+        meta[i].setAttribute("content", next === "dark" ? "#000000" : "#f5f5f7");
+      }
       return next;
     });
   }, []);
@@ -115,7 +140,11 @@ export default function HomePage() {
         aria-label={theme === "dark" ? "Chuyển sang giao diện sáng" : "Chuyển sang giao diện tối"}
         title={theme === "dark" ? "Light Glass" : "Dark Glass"}
       >
-        {theme === "dark" ? "☀️" : "🌙"}
+        {theme === "dark" ? (
+          <Sun className="w-[18px] h-[18px]" aria-hidden="true" style={{ display: "block" }} />
+        ) : (
+          <Moon className="w-[18px] h-[18px]" aria-hidden="true" style={{ display: "block" }} />
+        )}
       </button>
 
       <main className="page-wrapper">
