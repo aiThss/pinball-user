@@ -17,6 +17,57 @@ export default function SiteFooter({ className = "" }: { className?: string }) {
       >
         danhthai4560@gmail.com
       </a>
+
+      <style>{`
+        body[data-pinball-user-theme] .footer-contact-label {
+          margin-top: 5px;
+          color: var(--user-text-secondary);
+          font-size: 12px;
+          font-weight: 650;
+          line-height: 1.3;
+        }
+
+        body[data-pinball-user-theme] .site-footer .footer-contact-arrow {
+          display: block;
+          margin-block: -1px;
+          color: var(--user-text-muted);
+        }
+
+        body[data-pinball-user-theme] .footer-email {
+          display: inline-flex;
+          min-height: 40px;
+          align-items: center;
+          justify-content: center;
+          padding: 3px 10px;
+          color: var(--user-accent);
+          font-size: 12px;
+          font-weight: 650;
+          line-height: 1.3;
+          text-decoration: none;
+          border-radius: 999px;
+          -webkit-tap-highlight-color: transparent;
+          transition: opacity var(--user-transition), transform var(--user-transition);
+        }
+
+        body[data-pinball-user-theme] .footer-email:hover {
+          opacity: 0.82;
+        }
+
+        body[data-pinball-user-theme] .footer-email:active {
+          transform: scale(0.97);
+        }
+
+        body[data-pinball-user-theme] .footer-email:focus-visible {
+          outline: 2px solid var(--user-input-focus-ring);
+          outline-offset: 2px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          body[data-pinball-user-theme] .footer-email {
+            transition: none !important;
+          }
+        }
+      `}</style>
     </footer>
   );
 }
