@@ -20,6 +20,8 @@ type CustomerData = {
     balls: number;
     remainingCards: number;
     remainingBalls: number;
+    totalCardsAtRecord: number;
+    totalBallsAtRecord: number;
     totalText: string;
     status: string;
     createdByName: string;
