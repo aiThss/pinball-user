@@ -2,6 +2,7 @@
 
 import "./globals.css";
 import "./record-enhancements.css";
+import "./record-tabs.css";
 import "./light-glass-tuning.css";
 import { useState, useEffect, useCallback } from "react";
 import { Sun, Moon, Smartphone, Search, CircleDot } from "lucide-react";
