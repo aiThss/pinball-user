@@ -36,11 +36,24 @@ function applyThemeToDocument(theme: Theme) {
   document.body.dataset.pinballUserTheme = theme;
 }
 
+async function requestCustomerData(phone: string): Promise<CustomerData> {
+  const res = await fetch(`/api/customer?phone=${encodeURIComponent(phone)}`, {
+    cache: "no-store",
+    headers: { Accept: "application/json" },
+  });
+  const json = await res.json();
+
+  if (!res.ok) {
+    throw new Error(json.error ?? "Không tìm thấy thông tin.");
+  }
+
+  return json as CustomerData;
+}
+
 function useTheme(): [Theme, () => void] {
   const [theme, setTheme] = useState<Theme>("dark");
 
   useEffect(() => {
-    // Read from localStorage on mount
     const saved = localStorage.getItem("pinball-user-theme") as Theme;
     let nextTheme: Theme = "dark";
     if (saved === "light" || saved === "dark") {
@@ -50,13 +63,11 @@ function useTheme(): [Theme, () => void] {
     }
     applyThemeToDocument(nextTheme);
 
-    // Sync theme-color meta tag
     const meta = document.querySelectorAll('meta[name="theme-color"]');
     for (let i = 0; i < meta.length; i++) {
       meta[i].setAttribute("content", nextTheme === "dark" ? "#000000" : "#f5f5f7");
     }
 
-    // Set state asynchronously to bypass ESLint react-hooks/set-state-in-effect
     const timer = setTimeout(() => {
       setTheme(nextTheme);
     }, 0);
@@ -70,7 +81,6 @@ function useTheme(): [Theme, () => void] {
       localStorage.setItem("pinball-user-theme", next);
       applyThemeToDocument(next);
 
-      // Sync theme-color meta tag
       const meta = document.querySelectorAll('meta[name="theme-color"]');
       for (let i = 0; i < meta.length; i++) {
         meta[i].setAttribute("content", next === "dark" ? "#000000" : "#f5f5f7");
@@ -85,11 +95,12 @@ function useTheme(): [Theme, () => void] {
 export default function HomePage() {
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState("");
+  const [refreshError, setRefreshError] = useState("");
   const [data, setData] = useState<CustomerData | null>(null);
   const [theme, toggleTheme] = useTheme();
 
-  // Only allow digits, max 10
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value.replace(/\D/g, "").slice(0, 10);
     setPhone(val);
@@ -102,21 +113,39 @@ export default function HomePage() {
       setError("Vui lòng nhập đủ số điện thoại (ít nhất 9 số).");
       return;
     }
+
     setLoading(true);
     setError("");
+    setRefreshError("");
     try {
-      const res = await fetch(`/api/customer?phone=${encodeURIComponent(phone)}`);
-      const json = await res.json();
-      if (!res.ok) {
-        setError(json.error ?? "Không tìm thấy thông tin.");
-        setData(null);
-      } else {
-        setData(json);
-      }
-    } catch {
-      setError("Không thể kết nối. Vui lòng thử lại.");
+      setData(await requestCustomerData(phone));
+    } catch (requestError) {
+      setError(
+        requestError instanceof Error
+          ? requestError.message
+          : "Không thể kết nối. Vui lòng thử lại.",
+      );
+      setData(null);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleRefresh = async () => {
+    if (!data || refreshing) return;
+
+    setRefreshing(true);
+    setRefreshError("");
+    try {
+      setData(await requestCustomerData(data.phone));
+    } catch (requestError) {
+      setRefreshError(
+        requestError instanceof Error
+          ? requestError.message
+          : "Không thể làm mới dữ liệu. Vui lòng thử lại.",
+      );
+    } finally {
+      setRefreshing(false);
     }
   };
 
@@ -124,7 +153,13 @@ export default function HomePage() {
     return (
       <CustomerInfo
         data={data}
-        onBack={() => setData(null)}
+        onBack={() => {
+          setData(null);
+          setRefreshError("");
+        }}
+        onRefresh={handleRefresh}
+        refreshing={refreshing}
+        refreshError={refreshError}
         theme={theme}
         onToggleTheme={toggleTheme}
       />
@@ -133,14 +168,12 @@ export default function HomePage() {
 
   return (
     <>
-      {/* Background orbs */}
       <div className="bg-decoration" aria-hidden="true">
         <div className="bg-orb bg-orb-1" />
         <div className="bg-orb bg-orb-2" />
       </div>
 
       <main className="page-wrapper">
-        {/* Theme toggle as the first child of page-wrapper */}
         <button
           className="theme-toggle login-theme-toggle glass-surface"
           onClick={toggleTheme}
@@ -154,7 +187,6 @@ export default function HomePage() {
           )}
         </button>
 
-        {/* Brand */}
         <div className="brand animate-in">
           <div className="brand-icon glass-surface" aria-hidden="true">
             <CircleDot className="w-8 h-8 text-blue-500" />
@@ -163,7 +195,6 @@ export default function HomePage() {
           <p className="brand-sub">Tra cứu thẻ &amp; bi đang gửi của bạn</p>
         </div>
 
-        {/* Form card */}
         <div className="card glass-surface-strong animate-in animate-in-delay-1">
           <form onSubmit={handleSubmit} noValidate>
             <label className="input-label" htmlFor="phone-input">
@@ -191,7 +222,6 @@ export default function HomePage() {
               />
             </div>
 
-            {/* Digit indicator dots */}
             <div className="digit-indicator" aria-hidden="true">
               {Array.from({ length: 10 }).map((_, i) => (
                 <div
