@@ -35,6 +35,8 @@ type CustomerData = {
 
 type Theme = "light" | "dark";
 
+const SAVED_PHONE_KEY = "pinball-user-phone";
+
 function applyThemeToDocument(theme: Theme) {
   document.documentElement.dataset.pinballUserTheme = theme;
   document.body.dataset.pinballUserTheme = theme;
@@ -105,6 +107,28 @@ export default function HomePage() {
   const [data, setData] = useState<CustomerData | null>(null);
   const [theme, toggleTheme] = useTheme();
 
+  useEffect(() => {
+    let rememberedPhone = "";
+
+    try {
+      rememberedPhone = (localStorage.getItem(SAVED_PHONE_KEY) ?? "")
+        .replace(/\D/g, "")
+        .slice(0, 10);
+    } catch {
+      // The lookup remains usable when browser storage is blocked.
+    }
+
+    if (rememberedPhone.length < 9) {
+      return;
+    }
+
+    const timer = window.setTimeout(() => {
+      setPhone(rememberedPhone);
+    }, 0);
+
+    return () => window.clearTimeout(timer);
+  }, []);
+
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value.replace(/\D/g, "").slice(0, 10);
     setPhone(val);
@@ -122,7 +146,14 @@ export default function HomePage() {
     setError("");
     setRefreshError("");
     try {
-      setData(await requestCustomerData(phone));
+      const customer = await requestCustomerData(phone);
+      setData(customer);
+
+      try {
+        localStorage.setItem(SAVED_PHONE_KEY, phone);
+      } catch {
+        // A successful lookup should not fail just because storage is unavailable.
+      }
     } catch (requestError) {
       setError(
         requestError instanceof Error
