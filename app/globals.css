@@ -34,7 +34,6 @@ body {
   /* Orb colors */
   --user-orb-1: rgba(255, 255, 255, 0.80);
   --user-orb-2: rgba(120, 150, 255, 0.14);
-  --user-orb-3: rgba(160, 220, 255, 0.12);
 
   /* Text */
   --user-text: #1d1d1f;
@@ -164,8 +163,8 @@ body {
   --user-glass-strong-saturate: 155%;
   --user-glass-strong-shadow: 0 18px 42px rgba(15, 23, 42, 0.09);
 
-  --user-glass-soft-bg-from: rgba(255, 255, 255, 0.14);
-  --user-glass-soft-bg-to: rgba(255, 255, 255, 0.04);
+  --user-glass-soft-bg-from: rgba(255, 255, 255, 0.16);
+  --user-glass-soft-bg-to: rgba(255, 255, 255, 0.06);
   --user-glass-soft-border-color: rgba(255, 255, 255, 0.35);
   --user-glass-soft-blur: 10px;
   --user-glass-soft-saturate: 120%;
@@ -184,7 +183,6 @@ body {
   /* Orb colors */
   --user-orb-1: rgba(255, 255, 255, 0.08);
   --user-orb-2: rgba(80, 130, 255, 0.10);
-  --user-orb-3: rgba(80, 200, 255, 0.07);
 
   /* Text */
   --user-text: #f5f5f7;
@@ -314,7 +312,7 @@ body {
   --user-glass-strong-saturate: 145%;
   --user-glass-strong-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
 
-  --user-glass-soft-bg-from: rgba(44, 44, 46, 0.26);
+  --user-glass-soft-bg-from: rgba(44, 44, 46, 0.24);
   --user-glass-soft-bg-to: rgba(28, 28, 30, 0.12);
   --user-glass-soft-border-color: rgba(255, 255, 255, 0.08);
   --user-glass-soft-blur: 10px;
@@ -332,60 +330,54 @@ body {
   color: var(--user-text);
 }
 
-/* Target body directly since data attr is on body (Task 3 & 4) */
+/* Target body directly since data attr is on body (Task 3, 4 & 5) */
 body[data-pinball-user-theme="light"] {
+  min-height: 100dvh;
   background:
     radial-gradient(
-      circle at 8% 5%,
-      rgba(105, 170, 255, 0.24),
-      transparent 30%
+      circle at -8% 2%,
+      rgba(90, 150, 255, 0.14),
+      transparent 34%
     ),
     radial-gradient(
-      circle at 94% 20%,
-      rgba(190, 145, 255, 0.17),
-      transparent 29%
-    ),
-    radial-gradient(
-      circle at 48% 72%,
-      rgba(80, 210, 230, 0.14),
-      transparent 35%
+      circle at 108% 10%,
+      rgba(175, 130, 230, 0.08),
+      transparent 32%
     ),
     linear-gradient(
-      160deg,
-      #ffffff 0%,
-      #f3f4f8 46%,
-      #e9ecf2 100%
+      180deg,
+      #fbfbfc 0%,
+      #f4f5f7 52%,
+      #eef0f4 100%
     );
+  background-repeat: no-repeat;
   color: var(--user-text);
 }
 
 body[data-pinball-user-theme="dark"] {
+  min-height: 100dvh;
   background:
     radial-gradient(
-      circle at 10% 5%,
-      rgba(55, 110, 255, 0.21),
-      transparent 31%
+      circle at -8% 2%,
+      rgba(55, 100, 220, 0.10),
+      transparent 34%
     ),
     radial-gradient(
-      circle at 92% 18%,
-      rgba(135, 75, 220, 0.15),
-      transparent 29%
-    ),
-    radial-gradient(
-      circle at 50% 76%,
-      rgba(20, 155, 185, 0.11),
-      transparent 36%
+      circle at 108% 10%,
+      rgba(120, 70, 190, 0.06),
+      transparent 32%
     ),
     linear-gradient(
-      160deg,
-      #030303 0%,
-      #101012 47%,
-      #1c1c1e 100%
+      180deg,
+      #07080a 0%,
+      #0d0e11 52%,
+      #121317 100%
     );
+  background-repeat: no-repeat;
   color: var(--user-text);
 }
 
-/* ========== Background decoration ========== */
+/* ========== Background decoration (Task 6) ========== */
 body[data-pinball-user-theme] .bg-decoration {
   position: fixed;
   inset: 0;
@@ -396,9 +388,15 @@ body[data-pinball-user-theme] .bg-decoration {
 body[data-pinball-user-theme] .bg-orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(110px);
-  opacity: 0.28;
+  filter: blur(90px);
 }
+body[data-pinball-user-theme="light"] .bg-orb {
+  opacity: 0.16;
+}
+body[data-pinball-user-theme="dark"] .bg-orb {
+  opacity: 0.12;
+}
+
 body[data-pinball-user-theme] .bg-orb-1 {
   width: 380px; height: 380px;
   background: radial-gradient(circle, var(--user-orb-1), transparent 68%);
@@ -408,11 +406,6 @@ body[data-pinball-user-theme] .bg-orb-2 {
   width: 300px; height: 300px;
   background: radial-gradient(circle, var(--user-orb-2), transparent 68%);
   bottom: -90px; right: -90px;
-}
-body[data-pinball-user-theme] .bg-orb-3 {
-  width: 240px; height: 240px;
-  background: radial-gradient(circle, var(--user-orb-3), transparent 68%);
-  top: 45%; left: 55%;
 }
 
 /* ========== Page wrapper ========== */
@@ -436,7 +429,7 @@ body[data-pinball-user-theme] .page-wrapper {
   }
 }
 
-/* ========== Liquid Glass Utility classes (Task 5 & 6) ========== */
+/* ========== Liquid Glass Utility classes ========== */
 .glass-surface {
   position: relative;
   overflow: hidden;
@@ -518,7 +511,7 @@ body[data-pinball-user-theme] .page-wrapper {
   z-index: 1;
 }
 
-/* ========== Theme toggle button (Task 1) ========== */
+/* ========== Theme toggle button ========== */
 body[data-pinball-user-theme] .theme-toggle {
   width: 44px;
   height: 44px;
@@ -714,7 +707,7 @@ body[data-pinball-user-theme] .error-msg {
   gap: 8px;
 }
 
-/* Submit button (Task 8) */
+/* Submit button */
 body[data-pinball-user-theme] .btn-primary {
   display: flex;
   align-items: center;
@@ -797,7 +790,7 @@ body[data-pinball-user-theme] .back-btn:active {
   transform: scale(0.98);
 }
 
-/* Profile header card (Task 7) */
+/* Profile header card */
 body[data-pinball-user-theme] .profile-card {
   border-radius: 28px;
   padding: 20px;
@@ -822,8 +815,8 @@ body[data-pinball-user-theme] .profile-avatar {
   font-weight: 800;
   color: #fff;
   margin-bottom: 12px;
-  border: 2px solid rgba(255,255,255,0.40); /* viền kính trắng nhẹ */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* giảm glow xanh */
+  border: 2px solid rgba(255, 255, 255, 0.40);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   border-radius: 50% !important;
 }
 body[data-pinball-user-theme] .profile-name {
@@ -1021,12 +1014,52 @@ body[data-pinball-user-theme] .chip-action {
   letter-spacing: 0.4px;
 }
 
+/* Record Footer styling (Task 1) */
 body[data-pinball-user-theme] .record-footer {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 8px;
   margin-top: 10px;
   padding-top: 10px;
   border-top: 1px solid var(--user-divider);
   font-size: 12px;
   color: var(--user-text-muted);
+}
+
+body[data-pinball-user-theme] .record-footer-label {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+body[data-pinball-user-theme] .record-footer-values {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  min-width: 0;
+}
+
+body[data-pinball-user-theme] .holding-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+body[data-pinball-user-theme] .holding-item svg {
+  display: block;
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+}
+
+body[data-pinball-user-theme] .holding-item strong {
+  line-height: 1.2;
+  font-weight: 700;
 }
 
 /* ========== Empty state ========== */

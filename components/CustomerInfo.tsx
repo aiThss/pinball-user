@@ -41,9 +41,7 @@ function getInitials(name: string) {
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 }
 
-function isWithdraw(action: string) {
-  return action === "Lấy thẻ" || action === "Lấy bi";
-}
+
 
 export default function CustomerInfo({
   data,
@@ -65,7 +63,6 @@ export default function CustomerInfo({
       <div className="bg-decoration" aria-hidden="true">
         <div className="bg-orb bg-orb-1" />
         <div className="bg-orb bg-orb-2" />
-        <div className="bg-orb bg-orb-3" />
       </div>
 
       <main className="page-wrapper">
@@ -173,6 +170,9 @@ export default function CustomerInfo({
 }
 
 function RecordCard({ record: r }: { record: Record }) {
+  const cardAction = r.cardAction?.trim();
+  const ballAction = r.ballAction?.trim();
+
   return (
     <article className="record-card glass-surface-soft" role="listitem">
       <div className="record-header">
@@ -189,9 +189,11 @@ function RecordCard({ record: r }: { record: Record }) {
         {/* Card action */}
         {r.cards > 0 && (
           <>
-            <span className={`record-chip chip-action${isWithdraw(r.cardAction) ? " chip-action" : ""}`}>
-              {r.cardAction}
-            </span>
+            {cardAction && (
+              <span className="record-chip chip-action">
+                {cardAction}
+              </span>
+            )}
             <span className="record-chip chip-card">
               <Ticket className="w-3.5 h-3.5 mr-1" aria-hidden="true" />
               {r.cards} thẻ
@@ -205,9 +207,11 @@ function RecordCard({ record: r }: { record: Record }) {
         {/* Ball action */}
         {r.balls > 0 && (
           <>
-            <span className={`record-chip chip-action`}>
-              {r.ballAction}
-            </span>
+            {ballAction && (
+              <span className="record-chip chip-action">
+                {ballAction}
+              </span>
+            )}
             <span className="record-chip chip-ball">
               <CircleDot className="w-3.5 h-3.5 mr-1" aria-hidden="true" />
               {r.balls} bi
@@ -221,19 +225,23 @@ function RecordCard({ record: r }: { record: Record }) {
 
       {r.status === "Đang gửi" && (r.remainingCards > 0 || r.remainingBalls > 0) && (
         <div className="record-footer">
-          Đang giữ:
-          {r.cardAction !== "Lấy thẻ" && r.remainingCards > 0 && (
-            <>
-              <Ticket className="w-3.5 h-3.5 inline-block mx-1" aria-hidden="true" />
-              <strong>{r.remainingCards} thẻ</strong>
-            </>
-          )}
-          {r.ballAction !== "Lấy bi" && r.remainingBalls > 0 && (
-            <>
-              <CircleDot className="w-3.5 h-3.5 inline-block mx-1" aria-hidden="true" />
-              <strong>{r.remainingBalls} bi</strong>
-            </>
-          )}
+          <span className="record-footer-label">
+            Đang giữ:
+          </span>
+          <div className="record-footer-values">
+            {r.cardAction !== "Lấy thẻ" && r.remainingCards > 0 && (
+              <span className="holding-item holding-item-card">
+                <Ticket aria-hidden="true" />
+                <strong>{r.remainingCards} thẻ</strong>
+              </span>
+            )}
+            {r.ballAction !== "Lấy bi" && r.remainingBalls > 0 && (
+              <span className="holding-item holding-item-ball">
+                <CircleDot aria-hidden="true" />
+                <strong>{r.remainingBalls} bi</strong>
+              </span>
+            )}
+          </div>
         </div>
       )}
     </article>

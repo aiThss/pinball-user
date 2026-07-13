@@ -130,7 +130,6 @@ export default function HomePage() {
       <div className="bg-decoration" aria-hidden="true">
         <div className="bg-orb bg-orb-1" />
         <div className="bg-orb bg-orb-2" />
-        <div className="bg-orb bg-orb-3" />
       </div>
 
       <main className="page-wrapper">
