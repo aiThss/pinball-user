@@ -70,6 +70,7 @@ export default function CustomerInfo({
 }) {
   const activeRecords = data.records.filter((r) => r.status === "Đang gửi");
   const oldRecords = data.records.filter((r) => r.status !== "Đang gửi");
+  const hasScrollableActiveRecords = activeRecords.length > 2;
 
   return (
     <>
@@ -91,40 +92,20 @@ export default function CustomerInfo({
               ← Tra cứu số khác
             </button>
 
-            <div className="top-actions">
-              <button
-                type="button"
-                className={`refresh-btn glass-surface${refreshing ? " is-refreshing" : ""}`}
-                onClick={onRefresh}
-                disabled={refreshing}
-                aria-label={refreshing ? "Đang làm mới dữ liệu" : "Làm mới dữ liệu"}
-                aria-busy={refreshing}
-                title="Làm mới bản ghi"
-              >
-                <RefreshCw className="w-[18px] h-[18px]" aria-hidden="true" />
-              </button>
-
-              <button
-                type="button"
-                className="theme-toggle glass-surface"
-                onClick={onToggleTheme}
-                aria-label={theme === "dark" ? "Chuyển sang giao diện sáng" : "Chuyển sang giao diện tối"}
-                title={theme === "dark" ? "Light Glass" : "Dark Glass"}
-              >
-                {theme === "dark" ? (
-                  <Sun className="w-[18px] h-[18px]" aria-hidden="true" style={{ display: "block" }} />
-                ) : (
-                  <Moon className="w-[18px] h-[18px]" aria-hidden="true" style={{ display: "block" }} />
-                )}
-              </button>
-            </div>
+            <button
+              type="button"
+              className="theme-toggle glass-surface"
+              onClick={onToggleTheme}
+              aria-label={theme === "dark" ? "Chuyển sang giao diện sáng" : "Chuyển sang giao diện tối"}
+              title={theme === "dark" ? "Light Glass" : "Dark Glass"}
+            >
+              {theme === "dark" ? (
+                <Sun className="w-[18px] h-[18px]" aria-hidden="true" style={{ display: "block" }} />
+              ) : (
+                <Moon className="w-[18px] h-[18px]" aria-hidden="true" style={{ display: "block" }} />
+              )}
+            </button>
           </div>
-
-          {refreshError && (
-            <div className="refresh-error" role="alert">
-              {refreshError}
-            </div>
-          )}
 
           <div className="profile-card glass-surface-strong animate-in animate-in-delay-1">
             <div className="profile-avatar glass-surface" aria-hidden="true">
@@ -154,24 +135,51 @@ export default function CustomerInfo({
             </div>
           </div>
 
-          <div className="animate-in animate-in-delay-2">
-            <div className="section-title">
-              <ClipboardList className="w-4 h-4 inline-block mr-1" aria-hidden="true" />
-              BẢN GHI ĐANG GỬI ({activeRecords.length})
+          <section className="active-records-section animate-in animate-in-delay-2">
+            <div className="active-records-toolbar">
+              <div className="section-title active-records-title">
+                <ClipboardList className="w-4 h-4" aria-hidden="true" />
+                <span>BẢN GHI ĐANG GỬI ({activeRecords.length})</span>
+              </div>
+
+              <button
+                type="button"
+                className={`section-refresh-btn${refreshing ? " is-refreshing" : ""}`}
+                onClick={onRefresh}
+                disabled={refreshing}
+                aria-label={refreshing ? "Đang làm mới bản ghi" : "Làm mới bản ghi"}
+                aria-busy={refreshing}
+                title="Làm mới bản ghi"
+              >
+                <RefreshCw aria-hidden="true" />
+              </button>
             </div>
+
+            {refreshError && (
+              <div className="refresh-error active-records-error" role="alert">
+                {refreshError}
+              </div>
+            )}
+
             {activeRecords.length === 0 ? (
               <div className="card empty-state glass-surface-soft">
                 <div className="empty-state-icon" aria-hidden="true">📭</div>
                 <p className="empty-state-text">Không có bản ghi đang gửi.</p>
               </div>
             ) : (
-              <div className="records-list" role="list">
-                {activeRecords.map((r) => (
-                  <RecordCard key={r.id} record={r} />
-                ))}
+              <div
+                className={`active-records-frame${hasScrollableActiveRecords ? " is-scrollable" : ""}`}
+                tabIndex={hasScrollableActiveRecords ? 0 : undefined}
+                aria-label="Danh sách bản ghi đang gửi"
+              >
+                <div className="records-list" role="list">
+                  {activeRecords.map((r) => (
+                    <RecordCard key={r.id} record={r} />
+                  ))}
+                </div>
               </div>
             )}
-          </div>
+          </section>
 
           {oldRecords.length > 0 && (
             <div className="animate-in animate-in-delay-3" style={{ marginTop: 24 }}>
@@ -187,8 +195,11 @@ export default function CustomerInfo({
             </div>
           )}
 
-          <footer className="footer">
-            Chỉ xem · Không thể chỉnh sửa · Baby Ress Games
+          <footer className="footer site-footer">
+            <div className="footer-brand">© aiThs</div>
+            <a className="footer-email" href="mailto:danhthai4560@gmail.com">
+              danhthai4560@gmail.com
+            </a>
           </footer>
         </div>
       </main>
