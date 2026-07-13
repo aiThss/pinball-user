@@ -15,7 +15,7 @@ export default function RootLayout({
     <html lang="vi">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#0f0c1d" />
+        <meta name="theme-color" content="#0e1525" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
@@ -26,8 +26,25 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
           rel="stylesheet"
         />
+        {/* Anti-flash: apply saved theme before first paint */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('pinball-user-theme')||'dark';document.body&&(document.body.dataset.pinballUserTheme=t)}catch(e){}})();`,
+          }}
+        />
       </head>
-      <body>{children}</body>
+      <body
+        suppressHydrationWarning
+        // Will be set by ThemeInit and theme toggle at runtime
+      >
+        {/* Apply theme attribute as early as possible via inline script */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('pinball-user-theme')||'dark';document.body.dataset.pinballUserTheme=t}catch(e){document.body.dataset.pinballUserTheme='dark'}})();`,
+          }}
+        />
+        {children}
+      </body>
     </html>
   );
 }

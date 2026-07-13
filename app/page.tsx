@@ -1,7 +1,7 @@
 "use client";
 
 import "./globals.css";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import CustomerInfo from "@/components/CustomerInfo";
 
 type CustomerData = {
@@ -26,11 +26,36 @@ type CustomerData = {
   }>;
 };
 
+type Theme = "light" | "dark";
+
+function useTheme(): [Theme, () => void] {
+  const [theme, setTheme] = useState<Theme>("dark");
+
+  useEffect(() => {
+    // Read from localStorage on mount
+    const saved = (localStorage.getItem("pinball-user-theme") as Theme) || "dark";
+    setTheme(saved);
+    document.body.dataset.pinballUserTheme = saved;
+  }, []);
+
+  const toggle = useCallback(() => {
+    setTheme((prev) => {
+      const next: Theme = prev === "dark" ? "light" : "dark";
+      localStorage.setItem("pinball-user-theme", next);
+      document.body.dataset.pinballUserTheme = next;
+      return next;
+    });
+  }, []);
+
+  return [theme, toggle];
+}
+
 export default function HomePage() {
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [data, setData] = useState<CustomerData | null>(null);
+  const [theme, toggleTheme] = useTheme();
 
   // Only allow digits, max 10
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,7 +89,14 @@ export default function HomePage() {
   };
 
   if (data) {
-    return <CustomerInfo data={data} onBack={() => setData(null)} />;
+    return (
+      <CustomerInfo
+        data={data}
+        onBack={() => setData(null)}
+        theme={theme}
+        onToggleTheme={toggleTheme}
+      />
+    );
   }
 
   return (
@@ -75,6 +107,16 @@ export default function HomePage() {
         <div className="bg-orb bg-orb-2" />
         <div className="bg-orb bg-orb-3" />
       </div>
+
+      {/* Theme toggle */}
+      <button
+        className="theme-toggle"
+        onClick={toggleTheme}
+        aria-label={theme === "dark" ? "Chuyển sang giao diện sáng" : "Chuyển sang giao diện tối"}
+        title={theme === "dark" ? "Light Glass" : "Dark Glass"}
+      >
+        {theme === "dark" ? "☀️" : "🌙"}
+      </button>
 
       <main className="page-wrapper">
         {/* Brand */}

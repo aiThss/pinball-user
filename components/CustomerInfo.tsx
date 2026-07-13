@@ -47,9 +47,13 @@ function isWithdraw(action: string) {
 export default function CustomerInfo({
   data,
   onBack,
+  theme,
+  onToggleTheme,
 }: {
   data: CustomerData;
   onBack: () => void;
+  theme: "light" | "dark";
+  onToggleTheme: () => void;
 }) {
   const activeRecords = data.records.filter((r) => r.status === "Đang gửi");
   const oldRecords = data.records.filter((r) => r.status !== "Đang gửi");
@@ -62,6 +66,16 @@ export default function CustomerInfo({
         <div className="bg-orb bg-orb-2" />
         <div className="bg-orb bg-orb-3" />
       </div>
+
+      {/* Theme toggle */}
+      <button
+        className="theme-toggle"
+        onClick={onToggleTheme}
+        aria-label={theme === "dark" ? "Chuyển sang giao diện sáng" : "Chuyển sang giao diện tối"}
+        title={theme === "dark" ? "Light Glass" : "Dark Glass"}
+      >
+        {theme === "dark" ? "☀️" : "🌙"}
+      </button>
 
       <main className="page-wrapper">
         <div className="info-page animate-in">
@@ -89,12 +103,12 @@ export default function CustomerInfo({
               <div className="stat-card" aria-label={`${data.totalCards} thẻ đang giữ`}>
                 <div className="stat-icon" aria-hidden="true">🃏</div>
                 <div className="stat-value">{data.totalCards}</div>
-                <div className="stat-label">Thẻ đang giữ</div>
+                <div className="stat-label">THẺ ĐANG GIỮ</div>
               </div>
               <div className="stat-card" aria-label={`${data.totalBalls} bi đang giữ`}>
                 <div className="stat-icon" aria-hidden="true">🎱</div>
                 <div className="stat-value">{data.totalBalls}</div>
-                <div className="stat-label">Bi đang giữ</div>
+                <div className="stat-label">BI ĐANG GIỮ</div>
               </div>
             </div>
           </div>
@@ -103,7 +117,7 @@ export default function CustomerInfo({
           <div className="animate-in animate-in-delay-2">
             <div className="section-title">
               <span aria-hidden="true">📋</span>
-              Bản ghi đang gửi ({activeRecords.length})
+              BẢN GHI ĐANG GỬI ({activeRecords.length})
             </div>
             {activeRecords.length === 0 ? (
               <div className="card empty-state">
