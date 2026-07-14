@@ -37,17 +37,12 @@ export default function SiteFooter({ className = "" }: { className?: string }) {
         }
 
         body[data-pinball-user-theme] .footer-email {
-          display: inline-flex;
+          display: inline-block;
           max-width: calc(100vw - 24px);
-          min-height: 44px;
-          align-items: center;
-          justify-content: center;
-          padding: 8px 12px;
-          border: 1px solid var(--footer-email-border);
-          border-radius: 999px;
-          background: var(--footer-email-background);
-          box-shadow: var(--footer-email-shadow);
-          color: var(--footer-email-text);
+          padding-block: 3px;
+          background: var(--footer-email-text-fill);
+          background-clip: text;
+          color: var(--footer-email-color);
           font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
           font-size: clamp(10px, 2.8vw, 12px);
           font-weight: 600;
@@ -55,42 +50,41 @@ export default function SiteFooter({ className = "" }: { className?: string }) {
           line-height: 1.3;
           text-decoration: none;
           text-wrap: nowrap;
-          user-select: none;
-          -webkit-user-select: none;
-          -webkit-touch-callout: none;
-          backdrop-filter: blur(12px) saturate(125%);
-          -webkit-backdrop-filter: blur(12px) saturate(125%);
+          text-shadow: var(--footer-email-text-shadow);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
           -webkit-tap-highlight-color: transparent;
           transition:
-            background var(--user-transition),
-            border-color var(--user-transition),
-            box-shadow var(--user-transition),
+            text-shadow var(--user-transition),
             transform var(--user-transition);
         }
 
         body[data-pinball-user-theme="light"] .footer-email {
-          --footer-email-text: #ffffff;
-          --footer-email-border: rgba(255, 255, 255, 0.34);
-          --footer-email-background: linear-gradient(135deg, rgba(10, 11, 14, 0.94), rgba(37, 39, 45, 0.84));
-          --footer-email-shadow:
-            inset 0 1px 0 rgba(255, 255, 255, 0.18),
-            0 9px 22px rgba(13, 15, 20, 0.2);
+          --footer-email-color: #111216;
+          --footer-email-text-fill: linear-gradient(180deg, #3c3e43 0%, #090a0c 52%, #24262a 100%);
+          --footer-email-text-shadow:
+            0 1px 0 rgba(255, 255, 255, 0.9),
+            0 3px 10px rgba(15, 17, 22, 0.14);
+          --footer-email-hover-shadow:
+            0 1px 0 rgba(255, 255, 255, 0.95),
+            0 4px 14px rgba(15, 17, 22, 0.24);
         }
 
         body[data-pinball-user-theme="dark"] .footer-email {
-          --footer-email-text: #16171a;
-          --footer-email-border: rgba(255, 255, 255, 0.72);
-          --footer-email-background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(226, 228, 233, 0.88));
-          --footer-email-shadow:
-            inset 0 1px 0 rgba(255, 255, 255, 0.92),
-            0 9px 22px rgba(0, 0, 0, 0.28);
+          --footer-email-color: #ffffff;
+          --footer-email-text-fill: linear-gradient(180deg, #ffffff 0%, #f7f8fb 50%, #c8ccd5 100%);
+          --footer-email-text-shadow:
+            0 0 2px rgba(255, 255, 255, 0.9),
+            0 0 9px rgba(255, 255, 255, 0.48),
+            0 0 20px rgba(214, 223, 255, 0.24);
+          --footer-email-hover-shadow:
+            0 0 3px rgba(255, 255, 255, 0.95),
+            0 0 12px rgba(255, 255, 255, 0.62),
+            0 0 24px rgba(214, 223, 255, 0.34);
         }
 
         body[data-pinball-user-theme] .footer-email:hover {
-          border-color: var(--footer-email-text);
-          box-shadow:
-            var(--footer-email-shadow),
-            0 0 0 3px color-mix(in srgb, var(--footer-email-text) 9%, transparent);
+          text-shadow: var(--footer-email-hover-shadow);
           transform: translateY(-1px);
         }
 
@@ -99,7 +93,7 @@ export default function SiteFooter({ className = "" }: { className?: string }) {
         }
 
         body[data-pinball-user-theme] .footer-email:focus-visible {
-          outline: 2px solid var(--footer-email-text);
+          outline: 2px solid var(--footer-email-color);
           outline-offset: 3px;
         }
 
