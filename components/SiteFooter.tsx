@@ -61,13 +61,14 @@ export default function SiteFooter({ className = "" }: { className?: string }) {
 
         body[data-pinball-user-theme="light"] .footer-email {
           --footer-email-color: #111216;
-          --footer-email-text-fill: linear-gradient(180deg, #3c3e43 0%, #090a0c 52%, #24262a 100%);
           --footer-email-text-shadow:
-            0 1px 0 rgba(255, 255, 255, 0.9),
-            0 3px 10px rgba(15, 17, 22, 0.14);
+            0 0 1px rgba(255, 255, 255, 0.92),
+            0 1px 1px rgba(15, 17, 22, 0.16);
           --footer-email-hover-shadow:
-            0 1px 0 rgba(255, 255, 255, 0.95),
-            0 4px 14px rgba(15, 17, 22, 0.24);
+            0 0 2px rgba(255, 255, 255, 0.95),
+            0 1px 2px rgba(15, 17, 22, 0.22);
+          background: none;
+          -webkit-text-fill-color: #111216;
         }
 
         body[data-pinball-user-theme="dark"] .footer-email {
