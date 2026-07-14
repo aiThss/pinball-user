@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { formatDate } from "@/lib/utils";
 import {
   ChevronLeft,
@@ -119,13 +119,6 @@ export default function CustomerInfo({
     (currentPage - 1) * RECORDS_PER_PAGE,
     currentPage * RECORDS_PER_PAGE,
   );
-
-  useEffect(() => {
-    setRecordPages((current) => ({
-      active: Math.min(current.active, Math.max(1, Math.ceil(activeRecords.length / RECORDS_PER_PAGE))),
-      received: Math.min(current.received, Math.max(1, Math.ceil(receivedRecords.length / RECORDS_PER_PAGE))),
-    }));
-  }, [activeRecords.length, receivedRecords.length]);
 
   function changePage(page: number) {
     const nextPage = Math.max(1, Math.min(page, totalPages));
