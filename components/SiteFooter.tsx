@@ -44,7 +44,7 @@ export default function SiteFooter({ className = "" }: { className?: string }) {
           background-clip: text;
           color: var(--footer-email-color);
           font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-          font-size: clamp(11px, 2.8vw, 13px);
+          font-size: clamp(15px, 2.8vw, 18px);
           font-weight: 600;
           letter-spacing: -0.025em;
           line-height: 1.3;
