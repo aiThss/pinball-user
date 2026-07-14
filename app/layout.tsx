@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 
-const brittanySignature = localFont({
-  src: "./fonts/iCielBrittanySignature-Regular.ttf",
-  variable: "--font-brittany-signature",
+const allura = localFont({
+  src: "./fonts/Allura-Regular.ttf",
+  variable: "--font-allura",
   display: "swap",
   weight: "400",
   style: "normal",
@@ -52,7 +52,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={brittanySignature.variable}
+        className={allura.variable}
         suppressHydrationWarning
       >
         {/* Apply theme attribute as early as possible via inline script */}
