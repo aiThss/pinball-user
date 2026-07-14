@@ -1,4 +1,13 @@
 import type { Metadata } from "next";
+import localFont from "next/font/local";
+
+const brittanySignature = localFont({
+  src: "./fonts/iCielBrittanySignature-Regular.ttf",
+  variable: "--font-brittany-signature",
+  display: "swap",
+  weight: "400",
+  style: "normal",
+});
 
 export const metadata: Metadata = {
   title: "Ký Gửi Pinball – Tra Cứu",
@@ -43,6 +52,7 @@ export default function RootLayout({
         />
       </head>
       <body
+        className={brittanySignature.variable}
         suppressHydrationWarning
       >
         {/* Apply theme attribute as early as possible via inline script */}

@@ -5,7 +5,10 @@ export default function SiteFooter({ className = "" }: { className?: string }) {
 
   return (
     <footer className={footerClassName}>
-      <div className="footer-brand">© 2026 • Made by aiThs</div>
+      <div className="footer-brand">
+        <span>© 2026 • Made by</span>
+        <span className="footer-signature">aiThs</span>
+      </div>
 
       <div className="footer-contact-label">Contact for work</div>
       <ChevronDown className="footer-contact-arrow" aria-hidden="true" />
