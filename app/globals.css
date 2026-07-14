@@ -360,6 +360,21 @@ body[data-pinball-user-theme="dark"] {
   color: var(--user-text);
 }
 
+body[data-pinball-user-theme] {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+body[data-pinball-user-theme] input,
+body[data-pinball-user-theme] textarea {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
 /* ========== Fixed viewport background decoration ========== */
 body[data-pinball-user-theme] .bg-decoration {
   position: fixed;
